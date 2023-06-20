@@ -222,13 +222,6 @@ include("navbar.php");
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="modalInput">Modal Number</label>
-                                <input type="text" class="form-control" id="modalInput" placeholder="Model Number"
-                                    name="modalNo">
-                                <select class="form-control" name="color" id="namedropdown"></select>
-
-                            </div>
-                            <div class="form-group">
                                 <label for="variantInput">Variant Name</label>
                                 <input class="form-control" id="variantInput" placeholder="Enter Varinat"
                                     name="variant">
