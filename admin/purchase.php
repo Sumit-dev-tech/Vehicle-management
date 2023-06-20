@@ -182,8 +182,7 @@ include("navbar.php");
                             <div class="form-group">
                                 <label for="nameInput">Customer Name</label>
                                 <input type="text" class="form-control" id="nameInput" placeholder="Customer Name"
-                                    name="cname" required>
-                                <select class="form-control" name="color" id="namedropdown"></select>
+                                    name="cname" onkeyup="fetchNames(this.value)" required>
                             </div>
                             <div class="form-group">
                                 <label for="mobileInput" class="d-block">Phone Number</label>
@@ -277,7 +276,18 @@ include("navbar.php");
         </div>
     </div>
 <script>
-
+function fetchNames(inputValue){
+    $.ajax({
+    type: "POST",
+    url: "purchase-data.php",
+    dataType: 'json',
+    data: { name: inputValue },
+    success: function (response) {
+      // Handle the response from the server
+      // Populate a dropdown list or display the names below the input field
+    }
+  });
+}
 
 
 </script>
