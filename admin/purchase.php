@@ -275,7 +275,7 @@ include("navbar.php");
                         <th scope="col">Vehicle Details</th>
                         <th scope="col">Number Of Vehicle</th>
                         <th scope="col">Total Number</th>
-                        <th scope="col">purchase Date</th>
+                        <th scope="col">Purchase Date</th>
                     </tr>
                 </thead>
 
