@@ -1,0 +1,32 @@
+@media only screen and (max-width: 1200px) {
+    .sidebar {
+        width: 70px;
+    }
+
+    .sidebar .sidebar-brands img {
+        visibility: hidden;
+    }
+
+    .sidebar .sidebar-menu ul li a span:last-child {
+        display: none;
+    }
+
+    .sidebar .sidebar-menu ul li {
+        padding-left: 10px;
+        text-align: center;
+    }
+
+    .sidebar .sidebar-menu ul li a {
+        padding-left: 0;
+    }
+
+    .main-body {
+        margin-left: 70px;
+        width: calc(100% - 70px);
+    }
+
+    nav.nav {
+        width: calc(100% - 70px);
+        left: 70px;
+    }
+}
