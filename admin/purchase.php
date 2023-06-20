@@ -183,6 +183,7 @@ include("navbar.php");
                                 <label for="nameInput">Customer Name</label>
                                 <input type="text" class="form-control" id="nameInput" placeholder="Customer Name"
                                     name="cname" onkeyup="fetchNames(this.value)" required>
+                                    <div id="name-dropdown"></div>
                             </div>
                             <div class="form-group">
                                 <label for="mobileInput" class="d-block">Phone Number</label>
@@ -290,9 +291,7 @@ include("navbar.php");
 //       // Populate a dropdown list or display the names below the input field
 //     }
 //   });
-// }
-
-
+// 
 </script>
 
 </body>
