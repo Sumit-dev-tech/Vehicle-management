@@ -276,18 +276,21 @@ include("navbar.php");
         </div>
     </div>
 <script>
-function fetchNames(inputValue){
-    $.ajax({
-    type: "POST",
-    url: "purchase-data.php",
-    dataType: 'json',
-    data: { name: inputValue },
-    success: function (response) {
-      // Handle the response from the server
-      // Populate a dropdown list or display the names below the input field
-    }
-  });
-}
+// function fetchNames(inputValue){
+//     $.ajax({
+//     type: "POST",
+//     url: "purchase-data.php",
+//     dataType: 'json',
+//     data: { name: inputValue },
+//     success: function (response) {
+        
+//         $('#addressInput').val(response.address);
+        
+//       // Handle the response from the server
+//       // Populate a dropdown list or display the names below the input field
+//     }
+//   });
+// }
 
 
 </script>
