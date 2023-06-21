@@ -11,11 +11,11 @@
   //   }
   //   echo json_encode($names);
   // }
-  if (isset($_GET['name'])) {
-    $name = $_GET['name'];
+  if (isset($_POST['name'])) {
+    $name = $_POST['name'];
 
     $query = "SELECT * FROM `tblmastercustomer` WHERE name LIKE '%$name%'";
-    $result = mysqli_query($connection, $query);
+    $result = mysqli_query($conn, $query);
 
     $nameList = array();
     while ($row = mysqli_fetch_assoc($result)) {
@@ -24,6 +24,16 @@
 
     echo json_encode($nameList);
     exit;
+}
+if (isset($_POST['selectedName'])) {
+  $selectedName = $_POST['selectedName'];
+
+  $query = "SELECT * FROM `tblmastercustomer` WHERE name = '".$selectedName."'";
+  $result = mysqli_query($conn, $query);
+
+  $row = mysqli_fetch_assoc($result);
+  echo json_encode($row);
+  exit;
 }
      
 ?>

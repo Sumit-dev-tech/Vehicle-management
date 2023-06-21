@@ -126,6 +126,7 @@ include("navbar.php");
     .modal-dialog .modal-content {
         padding: 0 10px;
     }
+
     .table thead tr th {
         border: none;
         background: linear-gradient(45deg, #80b3ff 0%, #0066ff 100%);
@@ -149,6 +150,16 @@ include("navbar.php");
 
     }
 
+    #nameDropdown {
+        height: auto;
+    }
+
+    #nameDropdown ul {
+        list-style: none;
+    }
+    #nameDropdown ul li:hover{
+        cursor: pointer;
+    }
 </style>
 
 <body>
@@ -176,18 +187,18 @@ include("navbar.php");
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                    </div>
+                    </div
                     <div class="modal-body">
                         <form action="purchase-data.php" method="post" enctype="multipart/form-data" id="customerForm">
                             <div class="form-group">
                                 <label for="nameInput">Customer Name</label>
                                 <input type="text" class="form-control" id="nameInput" placeholder="Customer Name"
                                     name="cname" required>
-                                    <div id="name-dropdown"></div>
+                                <div class="form-control" id="nameDropdown"></div>
                             </div>
                             <div class="form-group">
                                 <label for="mobileInput" class="d-block">Phone Number</label>
-                                <input type="text" class="form-control mobileNo d-inline-block " id="mobileInput-1"
+                                <input type="text" class="form-control mobileNo d-inline-block " id="mobileInput"
                                     placeholder="Phone Number" name="mobile" required>
                                 <!-- <span id="error" class="hide error d-block" style="color:red;"></span> -->
                             </div>
@@ -233,8 +244,8 @@ include("navbar.php");
                             </div>
                             <div class="form-group">
                                 <label for="novehicleInput">Number Of Vehicle</label>
-                                <input type="number" class="form-control" id="novehicleInput" placeholder="Number Of Vehicle"
-                                    name="numberOfVehicle">
+                                <input type="number" class="form-control" id="novehicleInput"
+                                    placeholder="Number Of Vehicle" name="numberOfVehicle">
                             </div>
                             <div class="form-group">
                                 <label for="totalAmount">Total Amount</label>
@@ -258,8 +269,8 @@ include("navbar.php");
         <!-- Modal Customer Form End-->
         <!-- Customer Data Table Start-->
         <div class="table-vehicle">
-        <table class="table table-striped">
-        <thead>
+            <table class="table table-striped">
+                <thead>
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Customer Name</th>
@@ -272,49 +283,94 @@ include("navbar.php");
                     </tr>
                 </thead>
 
-        </table>
+            </table>
 
         </div>
     </div>
-<script>
-// function fetchNames(inputValue){
-//     $.ajax({
-//     type: "POST",
-//     url: "purchase-data.php",
-//     dataType: 'json',
-//     data: { name: inputValue },
-//     success: function (response) {
-        
-//         $('#addressInput').val(response.address);
-        
-//       // Handle the response from the server
-//       // Populate a dropdown list or display the names below the input field
-//     }
-//   });
-// 
-$(document).ready(function(){
-    $('#nameInput').on('input', function() {
+    <script>
+        // function fetchNames(inputValue){
+        //     $.ajax({
+        //     type: "POST",
+        //     url: "purchase-data.php",
+        //     dataType: 'json',
+        //     data: { name: inputValue },
+        //     success: function (response) {
+
+        //         $('#addressInput').val(response.address);
+
+        //       // Handle the response from the server
+        //       // Populate a dropdown list or display the names below the input field
+        //     }
+        //   });
+        // 
+        $(document).ready(function () {
+            $('#nameDropdown').hide();
+            $('#nameInput').on('input', function () {
                 var name = $(this).val();
 
+             if(name.length > 0){
                 $.ajax({
                     url: 'purchase-data.php',
-                    type: 'GET',
+                    type: 'POST',
                     data: { name: name },
-                    success: function(response) {
+                    success: function (response) {
                         var nameList = JSON.parse(response);
 
                         // Clear previous options
                         $('#nameDropdown').empty();
 
                         // Add new options
-                        $.each(nameList, function(index, value) {
-                            $('#nameDropdown').append('<option value="' + value + '">' + value + '</option>');
+                        $.each(nameList, function (index, value) {
+                            $('#nameDropdown').append('<ul><li value="' + value + '">' + value + '</li></ul>');
                         });
+                        $('#nameDropdown').show();
                     }
                 });
+             }else{
+                $('#nameDropdown').hide();
+
+             }
+                
             });
-});
-</script>
+            $(document).on('click', '#nameDropdown ul li', function () {
+                var selectedName = $(this).text();
+                $('#nameInput').val(selectedName);
+                $('#nameDropdown').hide();
+            });
+            $('#nameDropdown').on('change', function() {
+                var selectedName = $(this).val();
+                if(selectedName != ''){
+                    $.ajax({
+                    url: 'purchase-data.php',
+                    type: 'POST',
+                    data: { selectedName: selectedName },
+                    success: function(response) {
+                        var data = JSON.parse(response);
+
+                        // Populate address fields
+                        $('#mobileInput').val(data.mobile);
+                        $('#addressInput').val(data.address);
+                        $('#cityInput').val(data.city);
+                        $('#stateInput').val(data.state);
+                        $('#countryInput').val(data.country);
+                        $('#pincodeInput').val(data.pincode);
+                    },
+                    error: function() {
+                            alert('Error occurred while fetching data.');
+                        }
+                });
+                }else{
+                    $('#mobileInput').val('');
+                        $('#addressInput').val('');
+                        $('#cityInput').val('');
+                        $('#stateInput').val('');
+                        $('#countryInput').val('');
+                        $('#pincodeInput').val('');
+                }
+                
+            });
+        });
+    </script>
 
 </body>
 
