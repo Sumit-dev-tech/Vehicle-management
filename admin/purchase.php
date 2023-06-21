@@ -157,7 +157,8 @@ include("navbar.php");
     #nameDropdown ul {
         list-style: none;
     }
-    #nameDropdown ul li:hover{
+
+    #nameDropdown ul li:hover {
         cursor: pointer;
     }
 </style>
@@ -187,7 +188,7 @@ include("navbar.php");
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                    </div
+                    </div>
                     <div class="modal-body">
                         <form action="purchase-data.php" method="post" enctype="multipart/form-data" id="customerForm">
                             <div class="form-group">
@@ -199,37 +200,37 @@ include("navbar.php");
                             <div class="form-group">
                                 <label for="mobileInput" class="d-block">Phone Number</label>
                                 <input type="text" class="form-control mobileNo d-inline-block " id="mobileInput"
-                                    placeholder="Phone Number" name="mobile" required>
+                                    placeholder="Phone Number" name="mobile" readonly>
                                 <!-- <span id="error" class="hide error d-block" style="color:red;"></span> -->
                             </div>
                             <div class="form-group">
                                 <label for="addressInput">Address</label>
                                 <input type="text" class="form-control" id="addressInput" name="address"
-                                    placeholder="eg.123, Example">
+                                    placeholder="eg.123, Example" readonly>
 
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="cityInput">City</label>
                                     <input type="text" class="form-control" id="cityInput" name="city"
-                                        placeholder="City">
+                                        placeholder="City" readonly>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="stateInput">State</label>
                                     <input type="text" class="form-control" id="stateInput" name="state"
-                                        placeholder="State">
+                                        placeholder="State" readonly>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="countryInput">Country</label>
                                     <input type="text" class="form-control" id="countryInput" name="country"
-                                        placeholder="Country">
+                                        placeholder="Country" readonly>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="pincodeInput">Pincode</label>
                                     <input type="text" class="form-control" id="pincodeInput" name="pincode"
-                                        placeholder="Pincode">
+                                        placeholder="Pincode" readonly>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -308,36 +309,36 @@ include("navbar.php");
             $('#nameInput').on('input', function () {
                 var name = $(this).val();
 
-             if(name.length > 0){
-                $.ajax({
-                    url: 'purchase-data.php',
-                    type: 'POST',
-                    data: { name: name },
-                    success: function (response) {
-                        var nameList = JSON.parse(response);
+                if (name.length > 0) {
+                    $.ajax({
+                        url: 'purchase-data.php',
+                        type: 'POST',
+                        data: { name: name },
+                        success: function (response) {
+                            var nameList = JSON.parse(response);
 
-                        // Clear previous options
-                        $('#nameDropdown').empty();
+                            // Clear previous options
+                            $('#nameDropdown').empty();
 
-                        // Add new options
-                        $.each(nameList, function (index, value) {
-                            $('#nameDropdown').append('<ul><li value="' + value + '">' + value + '</li></ul>');
-                        });
-                        $('#nameDropdown').show();
-                    }
-                });
-             }else{
-                $('#nameDropdown').hide();
+                            // Add new options
+                            $.each(nameList, function (index, value) {
+                                $('#nameDropdown').append('<ul><li value="' + value + '">' + value + '</li></ul>');
+                            });
+                            $('#nameDropdown').show();
+                        }
+                    });
+                } else {
+                    $('#nameDropdown').hide();
 
-             }
-                
+                }
+
             });
             $(document).on('click', '#nameDropdown ul li', function () {
                 var selectedName = $(this).text();
                 $('#nameInput').val(selectedName);
                 $('#nameDropdown').hide();
             });
-            $('#nameDropdown').on('change', function() {
+            $('#nameDropdown').on('change', 'ul li', function() {
                 var selectedName = $(this).val();
                 if(selectedName != ''){
                     $.ajax({
@@ -367,8 +368,40 @@ include("navbar.php");
                         $('#countryInput').val('');
                         $('#pincodeInput').val('');
                 }
-                
+
             });
+            // $('#nameInput').on('input', function () {
+            //     var name = $(this).val();
+
+            //     if (name.length > 0) {
+            //         $.ajax({
+            //             url: 'purchase-data.php',
+            //             type: 'POST',
+            //             data: { name: name },
+            //             dataType: 'json',
+            //             success: function (response) {
+            //                 var details = response;
+
+            //                 // Populate the fields with fetched data
+            //                 $('#mobileInput').val(details.mobile);
+            //                 $('#addressInput').val(details.address);
+            //                 $('#cityInput').val(details.city);
+            //                 $('#stateInput').val(details.state);
+            //                 $('#pincodeInput').val(details.pincode);
+            //             },
+            //             error: function () {
+            //                 alert('Error occurred while fetching data.');
+            //             }
+            //         });
+            //     } else {
+            //         // Clear the fields when name input is empty
+            //         $('#mobileInput').val('');
+            //         $('#addressInput').val('');
+            //         $('#cityInput').val('');
+            //         $('#stateInput').val('');
+            //         $('#pincodeInput').val('');
+            //     }
+            // });
         });
     </script>
 

@@ -25,15 +25,13 @@
     echo json_encode($nameList);
     exit;
 }
-if (isset($_POST['selectedName'])) {
-  $selectedName = $_POST['selectedName'];
+if (isset($_POST['name'])) {
+  $selectedName = $_POST['name'];
 
-  $query = "SELECT * FROM `tblmastercustomer` WHERE name = '".$selectedName."'";
+  $query = "SELECT * FROM `tblmastercustomer` WHERE name = '". $selectedName."'";
   $result = mysqli_query($conn, $query);
-
-  $row = mysqli_fetch_assoc($result);
-  echo json_encode($row);
-  exit;
+  $data = mysqli_fetch_assoc($result);
+  echo json_encode($data);
 }
      
 ?>
