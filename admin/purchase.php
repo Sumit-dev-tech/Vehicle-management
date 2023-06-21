@@ -150,15 +150,18 @@ include("navbar.php");
 
     }
 
-    #nameDropdown {
+    #nameDropdown,
+    #vehicleDropdown {
         height: auto;
     }
 
-    #nameDropdown ul {
+    #nameDropdown ul,
+    #vehicleDropdown ul {
         list-style: none;
     }
 
-    #nameDropdown ul li:hover {
+    #nameDropdown ul li:hover,
+    #vehicleDropdown ul li:hover {
         cursor: pointer;
     }
 </style>
@@ -237,6 +240,7 @@ include("navbar.php");
                                 <label for="variantInput">Variant Name</label>
                                 <input class="form-control" id="variantInput" placeholder="Enter Varinat"
                                     name="variant">
+                                <div class="form-control" id="vehicleDropdown"></div>
                             </div>
                             <div class="form-group">
                                 <label for="priceInput">Price</label>
@@ -337,6 +341,75 @@ include("navbar.php");
                 var selectedName = $(this).text();
                 $('#nameInput').val(selectedName);
                 $('#nameDropdown').hide();
+                $.ajax({
+                    url: 'purchase-data.php',
+                    type: 'POST',
+                    data: { selectedName: selectedName },
+                    success: function (response) {
+                        var data = JSON.parse(response);
+
+                        // Populate address fields
+                        $('#mobileInput').val(data.mobile);
+                        $('#addressInput').val(data.address);
+                        $('#cityInput').val(data.city);
+                        $('#stateInput').val(data.state);
+                        $('#countryInput').val(data.country);
+                        $('#pincodeInput').val(data.pincode);
+                    }
+                });
+            });
+            $('#vehicleDropdown').hide();
+            $('#variantInput').on('input', function () {
+                var variant = $(this).val();
+
+                if (variant.length > 0) {
+                    $.ajax({
+                        url: 'purchase-data.php',
+                        type: 'POST',
+                        data: { variant: variant },
+                        success: function (response) {
+                            var variantList = JSON.parse(response);
+
+                            // Clear previous options
+                            $('#vehicleDropdown').empty();
+
+                            // Add new options
+                            $.each(variantList, function (index, value) {
+                                $('#vehicleDropdown').append('<ul><li value="' + value + '">' + value + '</li></ul>');
+                            });
+                            $('#vehicleDropdown').show();
+                        }
+                    });
+                } else {
+                    $('#vehicleDropdown').hide();
+
+                }
+
+            });
+            $(document).on('click', '#vehicleDropdown ul li', function () {
+                var selectedVariant = $(this).text();
+                $('#variantInput').val(selectedVariant);
+                $('#vehicleDropdown').hide();
+                $.ajax({
+                    url: 'purchase-data.php',
+                    type: 'POST',
+                    data: { selectedVariant: selectedVariant },
+                    success: function (response) {
+                        var data = JSON.parse(response);
+
+                        // Populate address fields
+                        $('#priceInput').val(data.price);
+
+                        // Calculate and display total price based on quantity
+                        $('#novehicleInput').on('input', function () {
+
+                            var quantity = $(this).val();
+                            var totalPrice = quantity * data.price;
+
+                            $('#totalAmount').val(totalPrice);
+                        });
+                    }  
+                });
             });
         });
     </script>

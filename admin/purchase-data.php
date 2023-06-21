@@ -32,6 +32,30 @@ if (isset($_POST['selectedName'])) {
   $result = mysqli_query($conn, $query);
   $data = mysqli_fetch_assoc($result);
   echo json_encode($data);
+  exit;
+}
+if (isset($_POST['variant'])) {
+  $variant = $_POST['variant'];
+
+  $query = "SELECT * FROM `tblmastervehicle` WHERE variant LIKE '%$variant%'";
+  $result = mysqli_query($conn, $query);
+
+  $variantList = array();
+  while ($row = mysqli_fetch_assoc($result)) {
+    $variantList[] = $row['variant'];
+  }
+
+  echo json_encode($variantList);
+  exit;
+}
+if (isset($_POST['selectedVariant'])) {
+$selectedVariant = $_POST['selectedVariant'];
+
+$query = "SELECT * FROM `tblmastervehicle` WHERE variant = '". $selectedVariant."'";
+$result = mysqli_query($conn, $query);
+$data = mysqli_fetch_assoc($result);
+echo json_encode($data);
+exit;
 }
      
 ?>
