@@ -1,15 +1,16 @@
-<?php 
+<?php
 session_start();
 include("conn.php");
 // include('session.php');
 ob_start();
-if(isset($_SESSION['user_data'])){
+if (isset($_SESSION['user_data'])) {
     header("location: dashboard.php");
 }
 
- ?>
+?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -32,6 +33,7 @@ if(isset($_SESSION['user_data'])){
         padding: 0;
         box-sizing: border-box;
         background: url("Image/bg-admin-1.jpg") rgba(0, 0, 0, 0.5);
+        /* background-color: blue; */
         /* background-color: #002266; */
         background-position: center;
         background-repeat: no-repeat;
@@ -39,10 +41,7 @@ if(isset($_SESSION['user_data'])){
         background-blend-mode: overlay;
         font-family: 'Montserrat', sans-serif;
         color: #fff;
-
-
     }
-
     .d-flex {
         height: 100vh;
         display: flex;
@@ -52,7 +51,7 @@ if(isset($_SESSION['user_data'])){
     }
 
     .card-img-top {
-        max-width: 100%;
+        max-width: 100%; 
         width: 70%;
         position: relative;
         margin-top: -50px;
@@ -223,24 +222,24 @@ if(isset($_SESSION['user_data'])){
     if (session_status() == PHP_SESSION_NONE) {
         session_start();
     }
-    
+
     if (isset($_POST['login_btn'])) {
         $uname = $_POST['username'];
         $pass = md5($_POST['password']);
         $sql = "SELECT * FROM `tblmasteradmin` WHERE `username` = '" . $uname . "' AND `password` = '" . $pass . "'";
         $query = mysqli_query($conn, $sql);
         $fetch = mysqli_fetch_assoc($query);
-        if(mysqli_num_rows($query) > 0){
+        if (mysqli_num_rows($query) > 0) {
             $_SESSION['user_data'] = json_encode($fetch);
             $message = '<div class="alert alert-success">Login Successfull</div>';
             // function function_alert($message) {
             //     echo "<script>alert('$message');</script>";
             //    }
             //    function_alert("Welcome to Geeks for Geeks");
-            header("location:dashboard.php");  
-            exit; 
+            header("location:dashboard.php");
+            exit;
         }
-        else{
+        else {
             $message = '<div class="alert alert-danger">Incorrect Username and Password</div>';
         }
     }

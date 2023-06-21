@@ -182,7 +182,7 @@ include("navbar.php");
                             <div class="form-group">
                                 <label for="nameInput">Customer Name</label>
                                 <input type="text" class="form-control" id="nameInput" placeholder="Customer Name"
-                                    name="cname" onkeyup="fetchNames(this.value)" required>
+                                    name="cname" required>
                                     <div id="name-dropdown"></div>
                             </div>
                             <div class="form-group">
@@ -292,6 +292,28 @@ include("navbar.php");
 //     }
 //   });
 // 
+$(document).ready(function(){
+    $('#nameInput').on('input', function() {
+                var name = $(this).val();
+
+                $.ajax({
+                    url: 'purchase-data.php',
+                    type: 'GET',
+                    data: { name: name },
+                    success: function(response) {
+                        var nameList = JSON.parse(response);
+
+                        // Clear previous options
+                        $('#nameDropdown').empty();
+
+                        // Add new options
+                        $.each(nameList, function(index, value) {
+                            $('#nameDropdown').append('<option value="' + value + '">' + value + '</option>');
+                        });
+                    }
+                });
+            });
+});
 </script>
 
 </body>
