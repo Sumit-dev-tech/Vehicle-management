@@ -338,62 +338,6 @@ include("navbar.php");
                 $('#nameInput').val(selectedName);
                 $('#nameDropdown').hide();
             });
-            $('#nameDropdown').on('change',function(e) {
-                e.preventDefault();
-                var selectedName = $(this).val();
-                    $.ajax({
-                    url: 'purchase-data.php',
-                    type: 'POST',
-                    data: { selectedName: selectedName },
-                    success: function(response) {
-                        var data = JSON.parse(response);
-
-                        // Populate address fields
-                        $('#nameInput').val(data.name);
-                        $('#mobileInput').val(data.mobile);
-                        $('#addressInput').val(data.address);
-                        $('#cityInput').val(data.city);
-                        $('#stateInput').val(data.state);
-                        $('#countryInput').val(data.country);
-                        $('#pincodeInput').val(data.pincode);
-                    },
-                    error: function() {
-                            alert('Error occurred while fetching data.');
-                        }
-                });
-            });
-            // $('#nameInput').on('input', function () {
-            //     var name = $(this).val();
-
-            //     if (name.length > 0) {
-            //         $.ajax({
-            //             url: 'purchase-data.php',
-            //             type: 'POST',
-            //             data: { name: name },
-            //             dataType: 'json',
-            //             success: function (response) {
-            //                 var details = response;
-
-            //                 // Populate the fields with fetched data
-            //                 $('#mobileInput').val(details.mobile);
-            //                 $('#addressInput').val(details.address);
-            //                 $('#cityInput').val(details.city);
-            //                 $('#stateInput').val(details.state);
-            //                 $('#pincodeInput').val(details.pincode);
-            //             },
-            //             error: function () {
-            //                 alert('Error occurred while fetching data.');
-            //             }
-            //         });
-            //     } else {
-            //         // Clear the fields when name input is empty
-            //         $('#mobileInput').val('');
-            //         $('#addressInput').val('');
-            //         $('#cityInput').val('');
-            //         $('#stateInput').val('');
-            //         $('#pincodeInput').val('');
-            //     }
-            // });
         });
     </script>
 
