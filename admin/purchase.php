@@ -200,37 +200,37 @@ include("navbar.php");
                             <div class="form-group">
                                 <label for="mobileInput" class="d-block">Phone Number</label>
                                 <input type="text" class="form-control mobileNo d-inline-block " id="mobileInput"
-                                    placeholder="Phone Number" name="mobile" readonly>
+                                    placeholder="Phone Number" name="mobile">
                                 <!-- <span id="error" class="hide error d-block" style="color:red;"></span> -->
                             </div>
                             <div class="form-group">
                                 <label for="addressInput">Address</label>
                                 <input type="text" class="form-control" id="addressInput" name="address"
-                                    placeholder="eg.123, Example" readonly>
+                                    placeholder="eg.123, Example">
 
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="cityInput">City</label>
                                     <input type="text" class="form-control" id="cityInput" name="city"
-                                        placeholder="City" readonly>
+                                        placeholder="City">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="stateInput">State</label>
                                     <input type="text" class="form-control" id="stateInput" name="state"
-                                        placeholder="State" readonly>
+                                        placeholder="State">
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="countryInput">Country</label>
                                     <input type="text" class="form-control" id="countryInput" name="country"
-                                        placeholder="Country" readonly>
+                                        placeholder="Country">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="pincodeInput">Pincode</label>
                                     <input type="text" class="form-control" id="pincodeInput" name="pincode"
-                                        placeholder="Pincode" readonly>
+                                        placeholder="Pincode">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -338,9 +338,9 @@ include("navbar.php");
                 $('#nameInput').val(selectedName);
                 $('#nameDropdown').hide();
             });
-            $('#nameDropdown').on('change', 'ul li', function() {
+            $('#nameDropdown').on('change',function(e) {
+                e.preventDefault();
                 var selectedName = $(this).val();
-                if(selectedName != ''){
                     $.ajax({
                     url: 'purchase-data.php',
                     type: 'POST',
@@ -349,6 +349,7 @@ include("navbar.php");
                         var data = JSON.parse(response);
 
                         // Populate address fields
+                        $('#nameInput').val(data.name);
                         $('#mobileInput').val(data.mobile);
                         $('#addressInput').val(data.address);
                         $('#cityInput').val(data.city);
@@ -360,15 +361,6 @@ include("navbar.php");
                             alert('Error occurred while fetching data.');
                         }
                 });
-                }else{
-                    $('#mobileInput').val('');
-                        $('#addressInput').val('');
-                        $('#cityInput').val('');
-                        $('#stateInput').val('');
-                        $('#countryInput').val('');
-                        $('#pincodeInput').val('');
-                }
-
             });
             // $('#nameInput').on('input', function () {
             //     var name = $(this).val();

@@ -25,8 +25,8 @@
     echo json_encode($nameList);
     exit;
 }
-if (isset($_POST['name'])) {
-  $selectedName = $_POST['name'];
+if (isset($_POST['selectedName'])) {
+  $selectedName = $_POST['selectedName'];
 
   $query = "SELECT * FROM `tblmastercustomer` WHERE name = '". $selectedName."'";
   $result = mysqli_query($conn, $query);
