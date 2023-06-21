@@ -11,6 +11,19 @@
   //   }
   //   echo json_encode($names);
   // }
-  
+  if (isset($_GET['name'])) {
+    $name = $_GET['name'];
+
+    $query = "SELECT * FROM `tblmastercustomer` WHERE name LIKE '%$name%'";
+    $result = mysqli_query($connection, $query);
+
+    $nameList = array();
+    while ($row = mysqli_fetch_assoc($result)) {
+        $nameList[] = $row['name'];
+    }
+
+    echo json_encode($nameList);
+    exit;
+}
      
 ?>
