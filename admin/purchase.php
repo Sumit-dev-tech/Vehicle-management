@@ -164,16 +164,57 @@ include("navbar.php");
     #vehicleDropdown ul li:hover {
         cursor: pointer;
     }
+    .alert .bi {
+        font-size: 25px;
+        margin-right: 20px;
+    }
+
+    .alert {
+        vertical-align: middle;
+    }
+
+    .alert-success {
+        background-color: green;
+        color: #fff;
+    }
+
+    .alert-success .text {
+        font-size: 20px;
+        font-weight: 600;
+    }
+
+    .alert .close {
+        color: #fff;
+        opacity: 1;
+    }
+
+    .alert-warning {
+        background-color: red;
+        color: #fff;
+    }
+    @media only screen and (max-width: 1200px) {
+        .main-body {
+            margin-left: 70px;
+            width: calc(100% - 70px);
+        }
+    }
+    @media only screen and (max-width: 810px){
+        .main-body{
+            width: 100% !important;
+            margin-left: 0;
+            transition: 0.3s ease all;
+        }
+    }
 </style>
 
 <body>
     <div class="main-body">
         <div class="msg">
             <?php
-            // if (isset($_SESSION['message'])) {
-            //     echo $_SESSION['message'];
-            //     unset($_SESSION['message']);
-            // }
+            if (isset($_SESSION['message'])) {
+                echo $_SESSION['message'];
+                unset($_SESSION['message']);
+            }
             ?>
         </div>
         <!-- Button trigger modal -->
@@ -193,7 +234,9 @@ include("navbar.php");
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form action="purchase-data.php" method="post" enctype="multipart/form-data" id="customerForm">
+                        <form action="purchase_add.php" method="post" enctype="multipart/form-data" id="customerForm">
+                        <input type="hidden" class="form-control" id="customerId" placeholder="Id"
+                                    name="customerId" required>
                             <div class="form-group">
                                 <label for="nameInput">Customer Name</label>
                                 <input type="text" class="form-control" id="nameInput" placeholder="Customer Name"
@@ -236,6 +279,8 @@ include("navbar.php");
                                         placeholder="Pincode">
                                 </div>
                             </div>
+                            <input type="hidden" class="form-control" id="vehicleId" placeholder="Id"
+                                    name="vehicleId" required>
                             <div class="form-group">
                                 <label for="variantInput">Variant Name</label>
                                 <input class="form-control" id="variantInput" placeholder="Enter Varinat"
@@ -349,6 +394,7 @@ include("navbar.php");
                         var data = JSON.parse(response);
 
                         // Populate address fields
+                        $('#customerId').val(data.customerId)
                         $('#mobileInput').val(data.mobile);
                         $('#addressInput').val(data.address);
                         $('#cityInput').val(data.city);
@@ -398,7 +444,9 @@ include("navbar.php");
                         var data = JSON.parse(response);
 
                         // Populate address fields
+                        $('#vehicleId').val(data.vehicleId);
                         $('#priceInput').val(data.price);
+                        
 
                         // Calculate and display total price based on quantity
                         $('#novehicleInput').on('input', function () {
