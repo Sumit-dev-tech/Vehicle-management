@@ -332,6 +332,17 @@ include("navbar.php");
                         <th scope="col">Purchase Date</th>
                     </tr>
                 </thead>
+                <?php
+                 $purchaseId = 1;
+                 $sql = "SELECT `tblmastercustomer` as customer customer.name, customer.mobile ,customer.address, customer.city, customer.state, customer.country, customer.pincode
+                 FROM `tblpurchasedata` as purchase 
+                 INNER JOIN customer ON purchase.customerId = customer.customerId 
+                 WHERE purchase.purchaseId = '".$purchaseId."'";
+                 $result
+                ?>
+                <tbody>
+
+                </tbody>
 
             </table>
 
