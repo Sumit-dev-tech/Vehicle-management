@@ -338,7 +338,7 @@ include("navbar.php");
                  FROM `tblpurchasedata` as purchase 
                  INNER JOIN customer ON purchase.customerId = customer.customerId 
                  WHERE purchase.purchaseId = '".$purchaseId."'";
-                 $result
+                 $result = mysqli_query($conn, $sql);
                 ?>
                 <tbody>
 
