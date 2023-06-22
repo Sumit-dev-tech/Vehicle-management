@@ -33,8 +33,6 @@ if (isset($_SESSION['user_data'])) {
         padding: 0;
         box-sizing: border-box;
         background: url("Image/bg-admin-1.jpg") rgba(0, 0, 0, 0.5);
-        /* background-color: blue; */
-        /* background-color: #002266; */
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
