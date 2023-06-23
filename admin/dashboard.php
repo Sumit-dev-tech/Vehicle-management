@@ -21,9 +21,10 @@ include("navbar.php");
     .main-body {
         transition: margin-left 0.3s ease;
         margin-left: 250px;
-        margin-top: 90px;
+        margin-top: 70px;
         height: 100%;
         font-family: 'Montserrat', sans-serif;
+        padding: 50px;
     }
 
     .cards {

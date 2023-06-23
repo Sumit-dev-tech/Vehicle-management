@@ -126,7 +126,7 @@ include("sidebar.php");
                 </div>
                 <div class="user-name ml-3 mt-2">
                     <h4 class="h4">
-                        <?php echo ($userdata->name); ?>
+                        <?php echo $userdata->name; ?>
                     </h4>
                 </div>
             </div>
