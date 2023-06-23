@@ -164,6 +164,7 @@ include("navbar.php");
     #vehicleDropdown ul li:hover {
         cursor: pointer;
     }
+
     .alert .bi {
         font-size: 25px;
         margin-right: 20px;
@@ -192,14 +193,16 @@ include("navbar.php");
         background-color: red;
         color: #fff;
     }
+
     @media only screen and (max-width: 1200px) {
         .main-body {
             margin-left: 70px;
             width: calc(100% - 70px);
         }
     }
-    @media only screen and (max-width: 810px){
-        .main-body{
+
+    @media only screen and (max-width: 810px) {
+        .main-body {
             width: 100% !important;
             margin-left: 0;
             transition: 0.3s ease all;
@@ -235,8 +238,8 @@ include("navbar.php");
                     </div>
                     <div class="modal-body">
                         <form action="purchase_add.php" method="post" enctype="multipart/form-data" id="customerForm">
-                        <input type="hidden" class="form-control" id="customerId" placeholder="Id"
-                                    name="customerId" required>
+                            <input type="hidden" class="form-control" id="customerId" placeholder="Id" name="customerId"
+                                required>
                             <div class="form-group">
                                 <label for="nameInput">Customer Name</label>
                                 <input type="text" class="form-control" id="nameInput" placeholder="Customer Name"
@@ -279,8 +282,8 @@ include("navbar.php");
                                         placeholder="Pincode">
                                 </div>
                             </div>
-                            <input type="hidden" class="form-control" id="vehicleId" placeholder="Id"
-                                    name="vehicleId" required>
+                            <input type="hidden" class="form-control" id="vehicleId" placeholder="Id" name="vehicleId"
+                                required>
                             <div class="form-group">
                                 <label for="variantInput">Variant Name</label>
                                 <input class="form-control" id="variantInput" placeholder="Enter Varinat"
@@ -333,16 +336,65 @@ include("navbar.php");
                     </tr>
                 </thead>
                 <?php
-                 $purchaseId = 1;
-                 $sql = "SELECT `tblmastercustomer` as customer customer.name, customer.mobile ,customer.address, customer.city, customer.state, customer.country, customer.pincode
-                 FROM `tblpurchasedata` as purchase 
-                 INNER JOIN customer ON purchase.customerId = customer.customerId 
-                 WHERE purchase.purchaseId = '".$purchaseId."'";
-                 $result = mysqli_query($conn, $sql);
-                ?>
-                <tbody>
+                $sql = "SELECT p.purchaseId, c.name, c.mobile, c.address, c.city, c.state, c.country, c.pincode, v.variant, v.price, p.no_purchase, p.total_amount, p.purchase_date FROM tblpurchasedata p INNER JOIN tblmastercustomer c ON p.customerId = c.customerId INNER JOIN tblmastervehicle v ON p.vehicleId = v.vehicleId ORDER BY purchaseId ASC;";
+                $result = mysqli_query($conn, $sql);
+                if (!$result) {
+                    die("Query failed: " . mysqli_error($conn));
+                }
+                $i = 1;
+                while ($fetch = mysqli_fetch_object($result)) {
+                    $purchaseId = $fetch->purchaseId;
+                    $customerName = $fetch->name;
+                    $mobile = $fetch->mobile;
+                    $add = $fetch->address;
+                    $city = $fetch->city;
+                    $state = $fetch->state;
+                    $country = $fetch->country;
+                    $pincode = $fetch->pincode;
+                    $variant = $fetch->variant;
+                    $price = $fetch->price;
+                    $numberOfPurchase = $fetch->no_purchase;
+                    $totalAmount = $fetch->total_amount;
+                    $pDate = $fetch->purchase_date;
+                    $purchaseDate = date('d/m/y', strtotime($pDate));
+                    $vehicleDetails = $variant . '</br>' . $price
+                    ?>
 
-                </tbody>
+                    <tbody>
+                        <th scope="row"> <?php echo $purchaseId; ?> </th>
+                        <td><?php echo  $customerName; ?> </td>
+                        <td><?php echo  $mobile; ?> </td>
+                        <td>
+                        <span class="address-preview">
+                                    <?php
+                                    // Combine the address, city, country, state, and pincode into a single string
+                                    $address = $add . ',<br/>' . $city . ',<br/>' . $state . ',<br/>' . $country . '-' . $pincode;
+
+                                    // Display a preview of the address (e.g., first 50 characters)
+                                    echo substr($address, 0, 50);
+                                    ?>
+                                </span>
+                                <?php
+                                // Check if the address length exceeds the preview length
+                                if (strlen($address) > 50):
+                                    ?>
+                                    <span class="address-full" style="display: none;">
+                                        <?php echo $address; ?>
+                                    </span>
+                                    <a href="#" class="read-more-btn">Read More</a>
+                                    <?php
+                                endif
+                                ?>
+                        </td>
+                        <td> <?php echo  $vehicleDetails; ?> </td>
+                        <td> <?php echo  $numberOfPurchase; ?> </td>
+                        <td> <?php echo  $totalAmount; ?> </td>
+                        <td> <?php echo  $purchaseDate; ?> </td>
+                    </tbody>
+                    <?php
+                    $i++;
+                }
+                ?>
 
             </table>
 
@@ -365,6 +417,20 @@ include("navbar.php");
         //   });
         // 
         $(document).ready(function () {
+            $('.read-more-btn').click(function () {
+                var addressPreview = $(this).siblings('.address-preview');
+                var addressFull = $(this).siblings('.address-full');
+
+                if (addressFull.is(':hidden')) {
+                    addressPreview.hide();
+                    addressFull.show();
+                    $(this).text('Read Less');
+                } else {
+                    addressFull.hide();
+                    addressPreview.show();
+                    $(this).text('Read More');
+                }
+            });
             $('#nameDropdown').hide();
             $('#nameInput').on('input', function () {
                 var name = $(this).val();
@@ -457,7 +523,7 @@ include("navbar.php");
                         // Populate address fields
                         $('#vehicleId').val(data.vehicleId);
                         $('#priceInput').val(data.price);
-                        
+
 
                         // Calculate and display total price based on quantity
                         $('#novehicleInput').on('input', function () {
@@ -467,7 +533,7 @@ include("navbar.php");
 
                             $('#totalAmount').val(totalPrice);
                         });
-                    }  
+                    }
                 });
             });
         });
