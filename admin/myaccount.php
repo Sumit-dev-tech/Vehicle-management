@@ -101,6 +101,14 @@ include("navbar.php");
 
 <body>
     <div class="main-body">
+    <div class="msg">
+            <?php
+            if (isset($_SESSION['message'])) {
+                echo $_SESSION['message'];
+                unset($_SESSION['message']);
+            }
+            ?>
+        </div>
         <div class="container">
             <h1>Welcome,
                 <?php echo $userdata->name; ?>
@@ -125,16 +133,16 @@ include("navbar.php");
                                         <div class="modal-body">
                                             <form action="myaccount-img-edit.php" method="POST" enctype="multipart/form-data"
                                                 id="edit-form">
-                                                <input type="hidden" class="update-profileId" name="id" id="profileId">
+                                                <input type="hidden" class="update-profileId" name="profileId" id="profileId">
                                                 <div class="form-group pt-3 pb-2">
                                                     <input type="file" class="form-control imageInput-2"
-                                                        Name="inputFile" id="imageInput-2" accept="image/*" value="">
+                                                        Name="profileImg" id="imageInput-2" accept="image/*" value="">
                                                     <span class="img-upload"><img id="previewImage-1" src=""
                                                             alt="Profile Image" width="100" height="100"></span>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="submit" class="btn btn-primary px-5 py-2"
-                                                        name="update_data" id="info_edit">Update
+                                                        name="update_image" id="img_edit">Update
                                                         Data</button>
                                                 </div>
                                             </form>
@@ -145,12 +153,17 @@ include("navbar.php");
                             </div>
                         </div>
                         <?php
-                         if($userdata->profileimg == ''){
-                             $path = 'User/user-1.png';
-                         }else{
-                            $path = $userdata->profileimg;
-                         }
-                        ?>
+                        $sql = "SELECT * FROM `tblmasteradmin`";
+                        $result = mysqli_query($conn, $sql);
+                        if($fetch = mysqli_fetch_object($result)){
+                           if($fetch->profileimg == ''){
+                               $path = 'User/user-1.png';
+                           }else{
+                              $path = $fetch->profileimg;
+                           }
+                        }
+                            
+                           ?>
                         <img src="Picture/<?php echo $path ;?>" alt="Profile Pic" class="profile-img">
                         
                         <div class="image-upload-btn pt-3">

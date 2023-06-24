@@ -122,7 +122,19 @@ include("sidebar.php");
             </div>
             <div class="user d-flex pr-3">
                 <div class="user-img">
-                    <img src="Picture/User/user-1.png" alt="" width="40px">
+                <?php
+                     $sql = "SELECT * FROM `tblmasteradmin`";
+                     $result = mysqli_query($conn, $sql);
+                     if($fetch = mysqli_fetch_object($result)){
+                        if($fetch->profileimg == ''){
+                            $path = 'User/user-1.png';
+                        }else{
+                           $path = $fetch->profileimg;
+                        }
+                     }
+                         
+                        ?>
+                    <img src="Picture/<?php echo $path ?>" alt="" width="40px">
                 </div>
                 <div class="user-name ml-3 mt-2">
                     <h4 class="h4">
