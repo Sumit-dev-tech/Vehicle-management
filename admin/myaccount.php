@@ -144,7 +144,15 @@ include("navbar.php");
                                 </div>
                             </div>
                         </div>
+                        <?php
+                         if($userdata->profileimg == ''){
+                             $path = 'User/user-1.png';
+                         }else{
+                            $path = $userdata->profileimg;
+                         }
+                        ?>
                         <img src="Picture/User/user-1.png" alt="Profile Pic" class="profile-img">
+                        
                         <div class="image-upload-btn pt-3">
                             <button type="button" class="btn btn-primary mr-1 mt-1 update-btn w-100"
                                 name="uploadData" data-id="<?php echo $userdata->adminId; ?>" data-toggle="modal" data-target="#purchasmodal_editform"><i
@@ -215,7 +223,7 @@ include("navbar.php");
                     dataType: 'json',
                     // contentType:"appliction/json",
                     data: {
-                        'id': id
+                        'imageId': id
                     },
                     success: function (data) {
                         console.log(data);
