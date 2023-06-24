@@ -122,7 +122,7 @@ include("sidebar.php");
             </div>
             <div class="user d-flex pr-3">
                 <div class="user-img">
-                    <img src="Image/user/user-1.png" alt="" width="40px">
+                    <img src="Picture/User/user-1.png" alt="" width="40px">
                 </div>
                 <div class="user-name ml-3 mt-2">
                     <h4 class="h4">

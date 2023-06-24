@@ -78,8 +78,8 @@ include("navbar.php");
         display: inline;
         margin-left: 20px;
     }
-    .img-upload #previewImage-1 {
-        display: none;
+    .btn-icon{
+        border-radius: 50%;
     }
 
 
@@ -108,7 +108,7 @@ include("navbar.php");
             <div class="row col-lg-12 pt-5">
                 <div class="col-lg-3">
                     <div class="profile-img">
-                        <div class="edit-img"><button type="button" class="btn btn-primary mr-1 mt-1 update-btn-1"
+                        <div class="edit-img"><button type="button" class="btn btn-primary mr-1 mt-1 update-btn btn-icon"
                                 name="uploadData" data-id="<?php echo $userdata->adminId; ?>" data-toggle="modal" data-target="#purchasmodal_editform"><i
                                     class="bi bi-camera-fill"></i></button>
                             <div class="modal fade" id="purchasmodal_editform" tabindex="-1"
@@ -123,14 +123,14 @@ include("navbar.php");
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <form action="profile-update.php" method="POST" enctype="multipart/form-data"
+                                            <form action="myaccount-img-edit.php" method="POST" enctype="multipart/form-data"
                                                 id="edit-form">
-                                                <input type="hidden" class="update-profileId" name="id" id="update-profileId">
+                                                <input type="hidden" class="update-profileId" name="id" id="profileId">
                                                 <div class="form-group pt-3 pb-2">
                                                     <input type="file" class="form-control imageInput-2"
                                                         Name="inputFile" id="imageInput-2" accept="image/*" value="">
                                                     <span class="img-upload"><img id="previewImage-1" src=""
-                                                            alt="Vehicle Image" width="100" height="60"></span>
+                                                            alt="Profile Image" width="100" height="100"></span>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="submit" class="btn btn-primary px-5 py-2"
@@ -151,7 +151,7 @@ include("navbar.php");
                             $path = $userdata->profileimg;
                          }
                         ?>
-                        <img src="Picture/User/user-1.png" alt="Profile Pic" class="profile-img">
+                        <img src="Picture/<?php echo $path ;?>" alt="Profile Pic" class="profile-img">
                         
                         <div class="image-upload-btn pt-3">
                             <button type="button" class="btn btn-primary mr-1 mt-1 update-btn w-100"
@@ -211,25 +211,25 @@ include("navbar.php");
                     previewImage.style.display = 'none'; // Hide the image preview
                 }
             });
-            $('.update-btn, .update-btn-1').click(function (e) {
+            $('.update-btn').click(function (e) {
                 e.preventDefault();
-                var id = $(this).data('id');
+                var imageId = $(this).data('id');
                 // console.log(recordId);
 
                 // Fetch data via AJAX
                 $.ajax({
-                    url: 'vehicle_edit.php',
+                    url: 'myaccount-img-edit.php',
                     type: 'POST',
                     dataType: 'json',
                     // contentType:"appliction/json",
                     data: {
-                        'imageId': id
+                        'imageId': imageId
                     },
-                    success: function (data) {
-                        console.log(data);
-                        $('#update-profileId').val(data.adminId);
-                        if (data.profileimg !== '') {
-                            $("#previewImage-1").attr("src", "Picture/User/" + data.profileimg);
+                    success: function (responce) {
+                        console.log(responce);
+                        $('#profileId').val(responce.adminId);
+                        if (responce.profileimg !== '') {
+                            $("#previewImage-1").attr("src", "Picture/User/" + responce.profileimg);
                         } else {
                             // Show default image
                             $("#previewImage-1").attr("src", "Picture/User/user-1.png");
