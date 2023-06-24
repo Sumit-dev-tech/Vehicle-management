@@ -153,18 +153,14 @@ include("navbar.php");
                             </div>
                         </div>
                         <?php
-                        $sql = "SELECT * FROM `tblmasteradmin`";
-                        $result = mysqli_query($conn, $sql);
-                        if($fetch = mysqli_fetch_object($result)){
-                           if($fetch->profileimg == ''){
-                               $path = 'User/user-1.png';
-                           }else{
-                              $path = $fetch->profileimg;
-                           }
-                        }
-                            
-                           ?>
-                        <img src="Picture/<?php echo $path ;?>" alt="Profile Pic" class="profile-img">
+                         if($userdata->profileimg == ""){
+                             $path = 'User/user-1.png';
+                         }else{
+                            $path = $userdata->profileimg;
+                         }
+                         $_SESSION['profile_img'] = $path;
+                        ?>
+                        <img src="Picture/<?php echo $_SESSION['profile_img'] ;?>" alt="Profile Pic" class="profile-img">
                         
                         <div class="image-upload-btn pt-3">
                             <button type="button" class="btn btn-primary mr-1 mt-1 update-btn w-100"
@@ -236,7 +232,7 @@ include("navbar.php");
                     dataType: 'json',
                     // contentType:"appliction/json",
                     data: {
-                        'imageId': imageId
+                        'imageId' : imageId
                     },
                     success: function (responce) {
                         console.log(responce);

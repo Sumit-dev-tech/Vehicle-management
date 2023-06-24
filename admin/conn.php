@@ -23,4 +23,5 @@ if (!($conn)) {
 //  $query= $conn->query($sql);
 //  $row = $query->fetch_assoc();
 //  print_r($row);
+?>
  

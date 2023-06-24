@@ -68,6 +68,9 @@ include("sidebar.php");
     .user-img img {
         border-radius: 50%;
     }
+    .dropdown-toggle::after{
+        display: none;
+    }
 
     @media only screen and (max-width: 1200px) {
         nav.nav {
@@ -75,33 +78,39 @@ include("sidebar.php");
             left: 70px;
         }
     }
-    @media only screen and (max-width: 810px){
-        nav.nav{
+
+    @media only screen and (max-width: 810px) {
+        nav.nav {
             width: 100%;
             left: 0;
             transition: 0.3s ease all;
         }
-        nav.nav{
+
+        nav.nav {
             display: flex;
             flex-direction: row;
             justify-content: center;
             align-items: center;
 
         }
-        .main-head h1{
+
+        .main-head h1 {
             font-size: 1.5em;
         }
-        .search-bar{
+
+        .search-bar {
             width: 200px;
             font-size: 15px;
         }
-        .search-bar input{
+
+        .search-bar input {
             width: 150px;
         }
+
         .user-name h4.h4 {
-        font-size: 16px;
-    }
-       
+            font-size: 16px;
+        }
+
     }
 </style>
 
@@ -122,24 +131,28 @@ include("sidebar.php");
             </div>
             <div class="user d-flex pr-3">
                 <div class="user-img">
-                <?php
-                     $sql = "SELECT * FROM `tblmasteradmin`";
-                     $result = mysqli_query($conn, $sql);
-                     if($fetch = mysqli_fetch_object($result)){
-                        if($fetch->profileimg == ''){
-                            $path = 'User/user-1.png';
-                        }else{
-                           $path = $fetch->profileimg;
-                        }
-                     }
-                         
-                        ?>
-                    <img src="Picture/<?php echo $path ?>" alt="" width="40px">
+                    <?php
+                    if ($userdata->profileimg == "") {
+                        $path = 'User/user-1.png';
+                    }
+                    else {
+                        $path = $userdata->profileimg;
+                    }
+                    $_SESSION['profile_img'] = $path;
+
+                    ?>
+                    <img src="Picture/<?php echo $_SESSION['profile_img'] ?>" alt="" width="40px">
                 </div>
-                <div class="user-name ml-3 mt-2">
-                    <h4 class="h4">
+                <div class="dropdown">
+                    <a class="btn dropdown-toggle" type="button" data-toggle="dropdown"
+                        aria-expanded="false">
+                        <h4 class="h4">
                         <?php echo $userdata->name; ?>
                     </h4>
+                </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="myaccount.php">My Account</a>
+                    </div>
                 </div>
             </div>
         </div>
