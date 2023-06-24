@@ -110,7 +110,7 @@ include("navbar.php");
 
     input.form-control {
         border: 1px solid #D8C9C6;
-        color: #B9ACAA;
+        color: #262626;
         border-radius: 0;
         outline: 0;
         font-size: 15px;
@@ -118,7 +118,7 @@ include("navbar.php");
     }
 
     input.form-control::placeholder {
-        color: #B9ACAA;
+        color: #262626;
     }
 
     input.form-control:focus {
@@ -127,7 +127,7 @@ include("navbar.php");
 
     select.form-control {
         border: 1px solid #D8C9C6;
-        color: #B9ACAA;
+        color: #262626;
         border-radius: 0;
         font-size: 15px;
         height: 40px;
@@ -264,6 +264,12 @@ include("navbar.php");
     .alert-warning {
         background-color: red;
         color: #fff;
+    }
+    @media only screen and (max-width: 1200px) {
+        .main-body {
+            margin-left: 70px;
+            width: calc(100% - 70px);
+        }
     }
     @media only screen and (max-width: 810px){
         .main-body{

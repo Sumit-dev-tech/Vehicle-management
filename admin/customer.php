@@ -66,7 +66,7 @@ include("navbar.php");
     }
 
     .btn-primary {
-        background-color:  #0066ff;;
+        background-color: #0066ff;
         border: none;
         font-size: 18px;
         box-shadow: none;
@@ -105,7 +105,7 @@ include("navbar.php");
 
     input.form-control {
         border: 1px solid #D8C9C6;
-        color: #B9ACAA;
+        color: #262626;
         border-radius: 0;
         outline: 0;
         font-size: 15px;
@@ -114,7 +114,7 @@ include("navbar.php");
     }
 
     input.form-control::placeholder {
-        color: #B9ACAA;
+        color: #262626;
     }
 
     input.form-control:focus {
@@ -133,7 +133,7 @@ include("navbar.php");
     }
 
     input[type="date"] {
-        color: #3d3d29;
+        color: #262626;
     }
 
     ::-webkit-calendar-picker-indicator {
