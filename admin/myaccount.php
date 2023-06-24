@@ -142,7 +142,7 @@ include("navbar.php");
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="submit" class="btn btn-primary px-5 py-2"
-                                                        name="update_image" id="img_edit">Update
+                                                        name="update-image" id="img_edit">Update
                                                         Data</button>
                                                 </div>
                                             </form>
@@ -171,20 +171,21 @@ include("navbar.php");
                 </div>
                 <div class="col-lg-9">
                     <div class="details pl-5">
-                        <form action="" method="post">
+                        <form action="myaccount-data.php" method="post">
+                            <input type="hidden" class="update-profile" name="profileDataId" id="profileDataId" value="<?php echo $userdata->adminId; ?>">
                             <div class="form-group">
                                 <label for="nameInput">Name</label>
-                                <input type="text" class="form-control" id="nameInput" placeholder="Name" name="name">
+                                <input type="text" class="form-control" id="nameInput" placeholder="Name" name="name" value="<?php echo $userdata->name; ?>">
                             </div>
                             <div class="form-group">
                                 <label for="usernameInput">Username</label>
                                 <input type="text" class="form-control" id="usernameInput" placeholder="Username"
-                                    name="username">
+                                    name="username" value="<?php echo $userdata->username; ?>">
                             </div>
                             <div class="form-group">
-                                <label for="usernameInput">Password</label>
-                                <input type="password" class="form-control" id="usernameInput" placeholder="Password"
-                                    name="username">
+                                <label for="usernameInput">Change Password</label>
+                                <input type="password" class="form-control" id="passwordInput" placeholder="Password"
+                                    name="password" value="<?php echo $userdata->password; ?>">
                             </div>
                             <div class="footer">
                                 <button type="submit" class="btn btn-primary w-100" name="update-profile"
@@ -251,8 +252,26 @@ include("navbar.php");
                     }
                 });
             });
-
           });
+//           $(document).ready(function() {
+//   // Ajax request to fetch data
+//   $.ajax({
+//     url: 'myaccount-data.php',  // Replace with your backend script URL
+//     type: 'Post',  // Use GET or POST based on your backend implementation
+//     data: formData,
+//     success: function(data) {
+//       // Populate form fields with fetched data
+//       $('#name').val(data.name);
+//       $('#nameInput').val(data.username);
+//       $('#passwordInput').val(data.password);
+//     },
+//     error: function(xhr, status, error) {
+//       // Handle error case
+//       console.error(error);
+//     }
+//   });
+// });
+
     </script>
 </body>
 

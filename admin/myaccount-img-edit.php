@@ -8,7 +8,7 @@ if (isset($_POST['imageId'])) {
   $data = mysqli_fetch_assoc($result);
   echo json_encode($data);
 }
-if (isset($_POST['update_image'])) {
+if (isset($_POST['update-image'])) {
 
   $ProfileId = $_POST['profileId'];
   if ($_FILES['profileImg']['error'] === UPLOAD_ERR_OK) {
