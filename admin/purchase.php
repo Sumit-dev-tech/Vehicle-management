@@ -87,7 +87,7 @@ include("navbar.php");
 
     input.form-control {
         border: 1px solid #D8C9C6;
-        color: #B9ACAA;
+        color: #262626;
         border-radius: 0;
         outline: 0;
         font-size: 15px;
@@ -95,7 +95,7 @@ include("navbar.php");
     }
 
     input.form-control::placeholder {
-        color: #B9ACAA;
+        color: #262626;
     }
 
     input.form-control:focus {
@@ -104,7 +104,7 @@ include("navbar.php");
 
     select.form-control {
         border: 1px solid #D8C9C6;
-        color: #B9ACAA;
+        color: #262626;
         border-radius: 0;
         font-size: 15px;
         height: 40px;
@@ -336,7 +336,7 @@ include("navbar.php");
                     </tr>
                 </thead>
                 <?php
-                $sql = "SELECT p.purchaseId, c.name, c.mobile, c.address, c.city, c.state, c.country, c.pincode, v.variant, v.price, p.no_purchase, p.total_amount, p.purchase_date FROM tblpurchasedata p INNER JOIN tblmastercustomer c ON p.customerId = c.customerId INNER JOIN tblmastervehicle v ON p.vehicleId = v.vehicleId ORDER BY purchaseId ASC;";
+                $sql = "SELECT p.purchaseId, c.name, c.mobile, c.address, c.city, c.state, c.country, c.pincode, v.variant, v.price, p.no_purchase, p.total_amount, p.purchase_date FROM tblpurchasedata p INNER JOIN tblmastercustomer c ON p.customerId = c.customerId INNER JOIN tblmastervehicle v ON p.vehicleId = v.vehicleId WHERE v.isDeleted='0' ORDER BY purchaseId ASC;";
                 $result = mysqli_query($conn, $sql);
                 if (!$result) {
                     die("Query failed: " . mysqli_error($conn));
