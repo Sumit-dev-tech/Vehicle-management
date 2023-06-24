@@ -265,12 +265,7 @@ include("navbar.php");
         background-color: red;
         color: #fff;
     }
-    @media only screen and (max-width: 1200px) {
-        .main-body {
-            margin-left: 70px;
-            width: calc(100% - 70px);
-        }
-    }
+
     @media only screen and (max-width: 810px){
         .main-body{
             width: 100%;

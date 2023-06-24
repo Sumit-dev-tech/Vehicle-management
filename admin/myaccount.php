@@ -42,36 +42,56 @@ include("navbar.php");
     .edit-btn {
         float: right;
     }
-    .profile-img{
+
+    .profile-img {
         width: 100%;
     }
+
     .btn-primary:not(:disabled):not(.disabled):active:focus {
         border: none;
         box-shadow: none;
     }
-    .btn-primary{
+
+    .btn-primary {
         border: none;
         outline: 0;
-        background-color:  #0066ff;
+        background-color: #0066ff;
         font-size: 20px;
     }
+
     .btn-primary:focus {
         box-shadow: none;
         outline: 0;
         border: none;
     }
+
     .btn-primary:hover {
         background-color: #80b3ff;
         box-shadow: none;
     }
+    #imageInput-2{
+        width: 65%;
+        display: inline;
+    }
+    .img-upload {
+        width: 35%;
+        display: inline;
+        margin-left: 20px;
+    }
+    .img-upload #previewImage-1 {
+        display: none;
+    }
+
+
     @media only screen and (max-width: 1200px) {
         .main-body {
             margin-left: 70px;
             width: calc(100% - 70px);
         }
     }
-    @media only screen and (max-width: 810px){
-        .main-body{
+
+    @media only screen and (max-width: 810px) {
+        .main-body {
             width: 100%;
             margin-left: 0;
             transition: 0.5s ease all;
@@ -85,11 +105,12 @@ include("navbar.php");
             <h1>Welcome,
                 <?php echo $userdata->name; ?>
             </h1>
-            <div class="row col-lg-12">
+            <div class="row col-lg-12 pt-5">
                 <div class="col-lg-3">
                     <div class="profile-img">
-                        <div class="edit-img"><button type="button" class="btn btn-primary mr-1 mt-1 edit-btn"
-                                name="uploadData" data-toggle="modal" data-target="#purchasmodal_editform"><i class="bi bi-camera-fill"></i></button>
+                        <div class="edit-img"><button type="button" class="btn btn-primary mr-1 mt-1 update-btn-1"
+                                name="uploadData" data-id="<?php echo $userdata->adminId; ?>" data-toggle="modal" data-target="#purchasmodal_editform"><i
+                                    class="bi bi-camera-fill"></i></button>
                             <div class="modal fade" id="purchasmodal_editform" tabindex="-1"
                                 aria-labelledby="vehicleModalEditForm" aria-hidden="true">
                                 <div class="modal-dialog">
@@ -102,11 +123,10 @@ include("navbar.php");
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <form action="vehicle_edit.php" method="POST" enctype="multipart/form-data"
+                                            <form action="profile-update.php" method="POST" enctype="multipart/form-data"
                                                 id="edit-form">
-                                                <input type="hidden" class="edit-id" name="id" id="edit-id">
+                                                <input type="hidden" class="update-profileId" name="id" id="update-profileId">
                                                 <div class="form-group pt-3 pb-2">
-                                                    <label for="imageInput-2" style="display:block;">Image</label>
                                                     <input type="file" class="form-control imageInput-2"
                                                         Name="inputFile" id="imageInput-2" accept="image/*" value="">
                                                     <span class="img-upload"><img id="previewImage-1" src=""
@@ -124,22 +144,99 @@ include("navbar.php");
                                 </div>
                             </div>
                         </div>
-                        <img src="Image/user/user-1.png" alt="Profile Pic" class="profile-img">
+                        <img src="Picture/User/user-1.png" alt="Profile Pic" class="profile-img">
                         <div class="image-upload-btn pt-3">
-                        <button type="button" class="btn btn-primary mr-1 mt-1 update-profile w-100"
-                                name="uploadData" data-toggle="modal" data-target="#purchasmodal_editform"><i class="bi bi-camera-fill"></i> Upload Image</button>
+                            <button type="button" class="btn btn-primary mr-1 mt-1 update-btn w-100"
+                                name="uploadData" data-id="<?php echo $userdata->adminId; ?>" data-toggle="modal" data-target="#purchasmodal_editform"><i
+                                    class="bi bi-camera-fill"></i> Upload Image</button>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-9">
-                    <div class="profile-img">
-
+                    <div class="details pl-5">
+                        <form action="" method="post">
+                            <div class="form-group">
+                                <label for="nameInput">Name</label>
+                                <input type="text" class="form-control" id="nameInput" placeholder="Name" name="name">
+                            </div>
+                            <div class="form-group">
+                                <label for="usernameInput">Username</label>
+                                <input type="text" class="form-control" id="usernameInput" placeholder="Username"
+                                    name="username">
+                            </div>
+                            <div class="form-group">
+                                <label for="usernameInput">Password</label>
+                                <input type="password" class="form-control" id="usernameInput" placeholder="Password"
+                                    name="username">
+                            </div>
+                            <div class="footer">
+                                <button type="submit" class="btn btn-primary w-100" name="update-profile"
+                                    id="update-profile">Update
+                                    Profile</button>
+                            </div>
+                        </form>
                     </div>
+
                 </div>
             </div>
         </div>
+    </div>
 
     </div>
+    <script>
+          $(document).ready(function () {
+            document.getElementById('imageInput-2').addEventListener('change', function () {
+                var fileInput = this;
+                var previewImage = document.getElementById('previewImage-1');
+
+                if (fileInput.files && fileInput.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        previewImage.src = e.target.result;
+                        previewImage.style.display = 'inline'; // Show the image preview
+                    }
+
+                    reader.readAsDataURL(fileInput.files[0]);
+                } else {
+                    previewImage.src = '';
+                    previewImage.style.display = 'none'; // Hide the image preview
+                }
+            });
+            $('.update-btn, .update-btn-1').click(function (e) {
+                e.preventDefault();
+                var id = $(this).data('id');
+                // console.log(recordId);
+
+                // Fetch data via AJAX
+                $.ajax({
+                    url: 'vehicle_edit.php',
+                    type: 'POST',
+                    dataType: 'json',
+                    // contentType:"appliction/json",
+                    data: {
+                        'id': id
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        $('#update-profileId').val(data.adminId);
+                        if (data.profileimg !== '') {
+                            $("#previewImage-1").attr("src", "Picture/User/" + data.profileimg);
+                        } else {
+                            // Show default image
+                            $("#previewImage-1").attr("src", "Picture/User/user-1.png");
+                        }
+                    },
+                    error: function (e) {
+                        console.log(e);
+                        // Handle error if the AJAX request fails
+                        console.log('Failed to fetch data.');
+                    }
+                });
+            });
+
+          });
+    </script>
 </body>
 
 </html>
