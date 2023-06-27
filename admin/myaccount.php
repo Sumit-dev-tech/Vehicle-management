@@ -38,6 +38,22 @@ include("navbar.php");
         align-items: center;
 
     }
+    input.form-control {
+        border: 1px solid #D8C9C6;
+        color: #262626;
+        border-radius: 0;
+        outline: 0;
+        font-size: 15px;
+        height: 40px;
+        margin-bottom: 20px;
+    }
+    input.form-control::placeholder {
+        color: #262626;
+    }
+
+    input.form-control:focus {
+        box-shadow: none;
+    }
 
     .edit-btn {
         float: right;
@@ -56,7 +72,7 @@ include("navbar.php");
         border: none;
         outline: 0;
         background-color: #0066ff;
-        font-size: 20px;
+        font-size: 18px;
     }
 
     .btn-primary:focus {
@@ -91,7 +107,7 @@ include("navbar.php");
 
     table tr td,
     th {
-        font-size: 20px;
+        font-size: 18px;
     }
 
     table tr td {
@@ -118,6 +134,7 @@ include("navbar.php");
     .profile-img {
         border-radius: 50%;
     }
+
     .alert .bi {
         font-size: 25px;
         margin-right: 20px;
@@ -133,7 +150,7 @@ include("navbar.php");
     }
 
     .alert-success .text {
-        font-size: 20px;
+        font-size: 18px;
         font-weight: 600;
     }
 
@@ -145,6 +162,46 @@ include("navbar.php");
     .alert-warning {
         background-color: red;
         color: #fff;
+    }
+    .cpassword-toggle {
+        position: absolute;
+        top: 27.5%;
+        right: 25px;
+        transform: translateY(-50%);
+        cursor: pointer;
+        font-size: 25px;
+        transition: 0.5 ease all;
+        /* margin-right: 5px; */
+    }
+    .cpassword-toggle .closed-eye {
+        display: none;
+    }
+
+    .show-cpassword .open-eye {
+        display: none;
+    }
+
+    .show-cpassword .closed-eye {
+        display: block;
+    }
+    .npassword-toggle{
+        position: absolute;
+        top: 63%;
+        right: 25px;
+        transform: translateY(-50%);
+        cursor: pointer;
+        font-size: 25px;
+        transition: 0.5 ease all;
+    }
+    .npassword-toggle .closed-eye {
+        display: none;
+    }
+    .show-npassword .open-eye {
+        display: none;
+    }
+
+    .show-npassword .closed-eye {
+        display: block;
     }
 
 
@@ -181,10 +238,10 @@ include("navbar.php");
             <div class="row col-lg-12 pt-5">
                 <?php
                 // $username = mysqli_real_escape_string($conn, $_POST['username']);
-                $username = $userdata->username;
-                $sql = "SELECT * FROM `tblmasteradmin` WHERE `username`=  '".$username."'";
+                $id = $userdata->adminId;
+                $sql = "SELECT * FROM `tblmasteradmin` WHERE `adminId`=  '" . $id . "'";
                 $result = mysqli_query($conn, $sql);
-                if($fetch = mysqli_fetch_object($result)) {
+                if ($fetch = mysqli_fetch_object($result)) {
                     $name = $fetch->name;
                     $username = $fetch->username;
                     if ($fetch->profileimg == "") {
@@ -199,14 +256,14 @@ include("navbar.php");
 
                             <div class="edit-img"><button type="button"
                                     class="btn btn-primary mr-1 mt-1 update-btn btn-icon" name="uploadData"
-                                    data-id="<?php echo $fetch->adminId; ?>" data-toggle="modal" data-target="#editImage"><i
+                                    data-id="<?php echo $fetch->adminId; ?>" data-toggle="modal" data-target="#editImageForm"><i
                                         class="bi bi-camera-fill"></i></button>
                             </div>
                             <img src="Picture/<?php echo $path; ?>" alt="Profile Pic" class="profile-img">
 
                             <div class="image-upload-btn pt-3">
                                 <button type="button" class="btn btn-primary mr-1 mt-1 update-btn w-100" name="uploadData"
-                                    data-id="<?php echo $fetch->adminId; ?>" data-toggle="modal" data-target="#editImage"><i
+                                    data-id="<?php echo $fetch->adminId; ?>" data-toggle="modal" data-target="#editImageForm"><i
                                         class="bi bi-camera-fill"></i> Upload
                                     Image</button>
                             </div>
@@ -231,11 +288,11 @@ include("navbar.php");
                                 <tr>
                                     <td><button type="button" class="btn btn-primary w-100 edit-profile"
                                             name="edit-profile-btn" data-id="<?php echo $fetch->adminId; ?>"
-                                            data-toggle="modal" data-target="#editProfile"><i class="bi bi-pencil"></i> Edit
+                                            data-toggle="modal" data-target="#editProfileForm"><i class="bi bi-pencil"></i> Edit
                                             Profile</button></td>
                                     <td><button type="button" class="btn btn-primary w-100 edit-password"
                                             name="edit-profile-btn" data-id="<?php echo $fetch->adminId; ?>"
-                                            data-toggle="modal" data-target="#editProfile"><i class="bi bi-pencil"></i> Edit
+                                            data-toggle="modal" data-target="#editPasswordForm"><i class="bi bi-pencil"></i> Edit
                                             password</button></td>
                                 </tr>
                             </table>
@@ -249,7 +306,8 @@ include("navbar.php");
                 ?>
             </div>
             <div class="modal-form">
-                <div class="modal fade" id="editImage" tabindex="-1" aria-labelledby="vehicleModalEditForm"
+                <!-- Modal form for Profile Image -->
+                <div class="modal fade" id="editImageForm" tabindex="-1" aria-labelledby="editImageForm"
                     aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -277,51 +335,150 @@ include("navbar.php");
                                     </div>
                                 </form>
                             </div>
-
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal fade" id="editProfile" tabindex="-1" aria-labelledby="vehicleModalEditForm"
+                <!-- Modal form for update profile -->
+                <div class="modal fade" id="editProfileForm" tabindex="-1" aria-labelledby="editProfileForm"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editProfileLabel">Edit Profile
+                                </h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="myaccount-edit.php" method="POST">
+                                    <input type="hidden" class="update-profile" name="profileId" id="profileDataId"
+                                        value="">
+                                    <div class="form-group">
+                                        <label for="nameInput">Name</label>
+                                        <input type="text" class="form-control" id="nameInput" placeholder="Name"
+                                            name="name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="usernameInput">Username</label>
+                                        <input type="text" class="form-control" id="usernameInput"
+                                            placeholder="Username" name="username">
+                                    </div>
+                                    <div class="footer">
+                                        <button type="submit" class="btn btn-primary w-100" name="update-profile"
+                                            id="update-profile">Update
+                                            Profile</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal form for update Password -->
+            <div class="modal fade" id="editPasswordForm" tabindex="-1" aria-labelledby="editPasswordForm"
                 aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="editProfileLabel">Edit Profile
+                            <h5 class="modal-title" id="editPasswordLabel">Change Password
                             </h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form action="myaccount-edit.php" method="POST">
+                            <form action="password.php" method="POST">
                                 <input type="hidden" class="update-profile" name="profileId" id="profileDataId"
                                     value="">
                                 <div class="form-group">
-                                    <label for="nameInput">Name</label>
-                                    <input type="text" class="form-control" id="nameInput" placeholder="Name"
-                                        name="name">
+                                    <label for="cpassword">Current Passsword</label>
+                                    <input type="password" class="form-control password" id="cpassword" placeholder="Current Password"
+                                        name="cpassword">
+                                        <span class="cpassword-toggle" onclick="toggleOldPasswordVisibility()">
+                                    <i class="bi bi-eye-slash-fill closed-eye"></i>
+                                    <i class="bi bi-eye-fill open-eye"></i>
+                                </span>
                                 </div>
                                 <div class="form-group">
-                                    <label for="usernameInput">Username</label>
-                                    <input type="text" class="form-control" id="usernameInput" placeholder="Username"
-                                        name="username">
+                                    <label for="npassword">New Password</label>
+                                    <input type="password" class="form-control password" id="npassword" placeholder="New Password"
+                                        name="npassword">
+                                        <span class="npassword-toggle" onclick="toggleNewPasswordVisibility()">
+                                    <i class="bi bi-eye-slash-fill closed-eye"></i>
+                                    <i class="bi bi-eye-fill open-eye"></i>
+                                </span>
                                 </div>
                                 <div class="footer">
-                                    <button type="submit" class="btn btn-primary w-100" name="update-profile"
-                                        id="update-profile">Update
-                                        Profile</button>
+                                    <button type="submit" class="btn btn-primary w-100" name="update-password"
+                                        id="update-password">Update
+                                        Password</button>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
+            </div>
+
         </div>
     </div>
 
     </div>
     <script>
+        function toggleOldPasswordVisibility() {
+            const oldPassword = document.getElementById("cpassword");
+            const passwordToggle = document.querySelector(".cpassword-toggle");
+
+            if (oldPassword.type === "password") {
+                oldPassword.type = "text";
+                passwordToggle.classList.add("show-cpassword");
+            } else {
+                oldPassword.type = "password";
+                passwordToggle.classList.remove("show-cpassword");
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const oldPassword = document.getElementById("cpassword");
+            const passwordToggle = document.querySelector(".cpassword-toggle");
+
+            passwordToggle.style.display = "none";
+
+            oldPassword.addEventListener("input", function () {
+                if (this.value) {
+                    passwordToggle.style.display = "block";
+                } else {
+                    passwordToggle.style.display = "none";
+                }
+            });
+        });
+        function toggleNewPasswordVisibility() {
+            const newPassword = document.getElementById("npassword");
+            const passwordToggle = document.querySelector(".npassword-toggle");
+
+            if (newPassword.type === "password") {
+                newPassword.type = "text";
+                passwordToggle.classList.add("show-npassword");
+            } else {
+                newPassword.type = "password";
+                passwordToggle.classList.remove("show-npassword");
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const newPassword = document.getElementById("npassword");
+            const passwordToggle = document.querySelector(".npassword-toggle");
+
+            passwordToggle.style.display = "none";
+
+            newPassword.addEventListener("input", function () {
+                if (this.value) {
+                    passwordToggle.style.display = "block";
+                } else {
+                    passwordToggle.style.display = "none";
+                }
+            });
+        });
         $(document).ready(function () {
             document.getElementById('imageInput-2').addEventListener('change', function () {
                 var fileInput = this;

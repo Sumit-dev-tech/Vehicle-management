@@ -221,6 +221,10 @@ function checkNavbar($className)
                     <a href="purchase.php" class="list-item"><span class="icon"><i class="bi bi-bag"></i></span>
                         <span class="title">Purchase Data</span></a>
                 </li>
+                <li class="list-group-item <?php echo checkNavbar('myaccount'); ?>">
+                    <a href="myaccount.php" class="list-item"><span class="icon"><i class="bi bi-gear-fill"></i></span>
+                        <span class="title">Setting</span></a>
+                </li>
                 <li class="list-group-item">
                     <a href="logout.php" class="list-item"><span class="icon"><i class="bi bi-power"></i></span>
                         <span class="title">Logout</span></a>

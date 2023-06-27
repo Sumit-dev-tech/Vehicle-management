@@ -133,8 +133,8 @@ include("sidebar.php");
             <div class="user d-flex pr-3">
                 <div class="user-img">
                     <?php
-                        $username = $userdata->username;
-                        $sql = "SELECT* FROM `tblmasteradmin` WHERE username = '".$username."'";
+                        $ImageId = $userdata->adminId;
+                        $sql = "SELECT* FROM `tblmasteradmin` WHERE `adminId` = '".$ImageId."'";
                         $run = mysqli_query($conn, $sql);
                         if($fetch = mysqli_fetch_object($run)){ 
                         if ($fetch->profileimg == "") {
@@ -154,8 +154,8 @@ include("sidebar.php");
                     <a class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
                         <h4 class="h4">
                             <?php
-                            $username = $userdata->username;
-                            $sql = "SELECT* FROM `tblmasteradmin` WHERE username = '".$username."'";
+                            $profileId = $userdata->adminId;
+                            $sql = "SELECT* FROM `tblmasteradmin` WHERE `adminId` = '".$profileId."'";
                             $run = mysqli_query($conn, $sql);
                             if($fetch = mysqli_fetch_object($run)){
                                 echo $fetch->name;
@@ -164,7 +164,8 @@ include("sidebar.php");
                         </h4>
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="myaccount.php">My Account</a>
+                        <a class="dropdown-item" href="myaccount.php"><i class="bi bi-person-fill"></i> My Account</a>
+                        <a class="dropdown-item" href="logout.php"><i class="bi bi-power"></i> Logout</a>
                     </div>
                 </div>
             </div>
