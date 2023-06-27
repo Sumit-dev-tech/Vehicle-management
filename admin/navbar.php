@@ -61,14 +61,15 @@ include("sidebar.php");
         color: #3d3d29;
     }
 
-    .user-name h4.h4 {
-        font-size: 18px;
+    .dropdown h4.h4 {
+        font-size: 16px;
     }
 
     .user-img img {
         border-radius: 50%;
     }
-    .dropdown-toggle::after{
+
+    .dropdown-toggle::after {
         display: none;
     }
 
@@ -107,7 +108,7 @@ include("sidebar.php");
             width: 150px;
         }
 
-        .user-name h4.h4 {
+        .dropdown h4.h4 {
             font-size: 16px;
         }
 
@@ -132,24 +133,36 @@ include("sidebar.php");
             <div class="user d-flex pr-3">
                 <div class="user-img">
                     <?php
-                    if ($userdata->profileimg == "") {
-                        $path = 'User/user-1.png';
-                    }
-                    else {
-                        $path = $userdata->profileimg;
-                    }
-                    $_SESSION['profile_img'] = $path;
+                        $username = $userdata->username;
+                        $sql = "SELECT* FROM `tblmasteradmin` WHERE username = '".$username."'";
+                        $run = mysqli_query($conn, $sql);
+                        if($fetch = mysqli_fetch_object($run)){ 
+                        if ($fetch->profileimg == "") {
+                            $path = 'User/user-1.png';
+                        }
+                        else {
+                            $path = $fetch->profileimg;
+                        }
+                        ?>
+                        <img src="Picture/<?php echo $path; ?>" alt="" width="40px">
+                        <?php
+                        }
+                        ?>
 
-                    ?>
-                    <img src="Picture/<?php echo $_SESSION['profile_img'] ?>" alt="" width="40px">
                 </div>
                 <div class="dropdown">
-                    <a class="btn dropdown-toggle" type="button" data-toggle="dropdown"
-                        aria-expanded="false">
+                    <a class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
                         <h4 class="h4">
-                        <?php echo $userdata->name; ?>
-                    </h4>
-                </a>
+                            <?php
+                            $username = $userdata->username;
+                            $sql = "SELECT* FROM `tblmasteradmin` WHERE username = '".$username."'";
+                            $run = mysqli_query($conn, $sql);
+                            if($fetch = mysqli_fetch_object($run)){
+                                echo $fetch->name;
+                            }
+                            ?>
+                        </h4>
+                    </a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="myaccount.php">My Account</a>
                     </div>

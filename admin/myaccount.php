@@ -84,24 +84,67 @@ include("navbar.php");
     .btn-icon {
         border-radius: 50%;
     }
-    .table-striped tbody tr:nth-of-type(odd){
+
+    .table-striped tbody tr:nth-of-type(odd) {
         background-color: #fff;
     }
-    table tr td, th {
+
+    table tr td,
+    th {
         font-size: 20px;
     }
-    table tr td{
+
+    table tr td {
         font-weight: 500;
     }
-    table{
+
+    table {
         line-height: 2;
         margin-bottom: 20px;
     }
-    table tr{
+
+    table tr {
         background-color: #fff !important;
     }
-    form label{
+
+    form label {
         font-weight: 700;
+    }
+
+    .edit-password {
+        background-color: green;
+    }
+
+    .profile-img {
+        border-radius: 50%;
+    }
+    .alert .bi {
+        font-size: 25px;
+        margin-right: 20px;
+    }
+
+    .alert {
+        vertical-align: middle;
+    }
+
+    .alert-success {
+        background-color: green;
+        color: #fff;
+    }
+
+    .alert-success .text {
+        font-size: 20px;
+        font-weight: 600;
+    }
+
+    .alert .close {
+        color: #fff;
+        opacity: 1;
+    }
+
+    .alert-warning {
+        background-color: red;
+        color: #fff;
     }
 
 
@@ -136,123 +179,142 @@ include("navbar.php");
                 <?php echo $userdata->name; ?>
             </h1>
             <div class="row col-lg-12 pt-5">
-                <div class="col-lg-3">
-                    <div class="profile-img">
-                        <div class="edit-img"><button type="button"
-                                class="btn btn-primary mr-1 mt-1 update-btn btn-icon" name="uploadData"
-                                data-id="<?php echo $userdata->adminId; ?>" data-toggle="modal"
-                                data-target="#editImage"><i class="bi bi-camera-fill"></i></button>
-                            <div class="modal fade" id="editImage" tabindex="-1"
-                                aria-labelledby="vehicleModalEditForm" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="editImageLabel">Update Profile Image
-                                            </h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form action="myaccount-img-edit.php" method="POST"
-                                                enctype="multipart/form-data" id="edit-form">
-                                                <input type="hidden" class="update-profileId" name="profileId"
-                                                    id="profileId">
-                                                <div class="form-group pt-3 pb-2">
-                                                    <input type="file" class="form-control imageInput-2"
-                                                        Name="profileImg" id="imageInput-2" accept="image/*" value="">
-                                                    <span class="img-upload"><img id="previewImage-1" src=""
-                                                            alt="Profile Image" width="100" height="100"></span>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="submit" class="btn btn-primary px-5 py-2"
-                                                        name="update-image" id="img_edit">Update
-                                                        Data</button>
-                                                </div>
-                                            </form>
-                                        </div>
+                <?php
+                // $username = mysqli_real_escape_string($conn, $_POST['username']);
+                $username = $userdata->username;
+                $sql = "SELECT * FROM `tblmasteradmin` WHERE `username`=  '".$username."'";
+                $result = mysqli_query($conn, $sql);
+                if($fetch = mysqli_fetch_object($result)) {
+                    $name = $fetch->name;
+                    $username = $fetch->username;
+                    if ($fetch->profileimg == "") {
+                        $path = 'User/user-1.png';
+                    }
+                    else {
+                        $path = $fetch->profileimg;
+                    }
+                    ?>
+                    <div class="col-lg-3">
+                        <div class="profile-img">
 
-                                    </div>
-                                </div>
+                            <div class="edit-img"><button type="button"
+                                    class="btn btn-primary mr-1 mt-1 update-btn btn-icon" name="uploadData"
+                                    data-id="<?php echo $fetch->adminId; ?>" data-toggle="modal" data-target="#editImage"><i
+                                        class="bi bi-camera-fill"></i></button>
                             </div>
-                        </div>
-                        <?php
-                        if ($userdata->profileimg == "") {
-                            $path = 'User/user-1.png';
-                        }
-                        else {
-                            $path = $userdata->profileimg;
-                        }
-                        $_SESSION['profile_img'] = $path;
-                        ?>
-                        <img src="Picture/<?php echo $_SESSION['profile_img']; ?>" alt="Profile Pic"
-                            class="profile-img">
+                            <img src="Picture/<?php echo $path; ?>" alt="Profile Pic" class="profile-img">
 
-                        <div class="image-upload-btn pt-3">
-                            <button type="button" class="btn btn-primary mr-1 mt-1 update-btn w-100" name="uploadData"
-                                data-id="<?php echo $userdata->adminId; ?>" data-toggle="modal"
-                                data-target="#editImage"><i class="bi bi-camera-fill"></i> Upload
-                                Image</button>
+                            <div class="image-upload-btn pt-3">
+                                <button type="button" class="btn btn-primary mr-1 mt-1 update-btn w-100" name="uploadData"
+                                    data-id="<?php echo $fetch->adminId; ?>" data-toggle="modal" data-target="#editImage"><i
+                                        class="bi bi-camera-fill"></i> Upload
+                                    Image</button>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-9">
+                        <div class="details pl-5">
+                            <table class="table table-striped">
+                                <tr>
+                                    <th scope="row">Name</th>
+                                    <td>
+                                        <?php echo $name; ?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Username</th>
+                                    <td>
+                                        <?php echo $username; ?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><button type="button" class="btn btn-primary w-100 edit-profile"
+                                            name="edit-profile-btn" data-id="<?php echo $fetch->adminId; ?>"
+                                            data-toggle="modal" data-target="#editProfile"><i class="bi bi-pencil"></i> Edit
+                                            Profile</button></td>
+                                    <td><button type="button" class="btn btn-primary w-100 edit-password"
+                                            name="edit-profile-btn" data-id="<?php echo $fetch->adminId; ?>"
+                                            data-toggle="modal" data-target="#editProfile"><i class="bi bi-pencil"></i> Edit
+                                            password</button></td>
+                                </tr>
+                            </table>
+
+
+                        </div>
+
+                    </div>
+                    <?php
+                }
+                ?>
+            </div>
+            <div class="modal-form">
+                <div class="modal fade" id="editImage" tabindex="-1" aria-labelledby="vehicleModalEditForm"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editImageLabel">Update Profile Image
+                                </h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="myaccount-img-edit.php" method="POST" enctype="multipart/form-data"
+                                    id="edit-form">
+                                    <input type="hidden" class="update-profileId" name="profileId" id="profileId">
+                                    <div class="form-group pt-3 pb-2">
+                                        <input type="file" class="form-control imageInput-2" Name="profileImg"
+                                            id="imageInput-2" accept="image/*" value="">
+                                        <span class="img-upload"><img id="previewImage-1" src="" alt="Profile Image"
+                                                width="100" height="100"></span>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary px-5 py-2" name="update-image"
+                                            id="img_edit">Update
+                                            Data</button>
+                                    </div>
+                                </form>
+                            </div>
+
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-9">
-                    <div class="details pl-5">
-                        <table class="table table-striped">
-                            <tr>
-                                <th scope="row">Name</th>
-                                <td>
-                                    <?php echo $userdata->name; ?>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Username</th>
-                                <td>
-                                    <?php echo $userdata->username; ?>
-                                </td>
-                            </tr>
-                        </table>
-                        <button type="button" class="btn btn-primary w-100 edit-profile" name="edit-profile-btn"
-                            data-id="<?php echo $userdata->adminId; ?>" data-toggle="modal" data-target="#editProfile"><i
-                                class="bi bi-pencil"></i> Edit
-                            Profile</button>
-                        <div class="modal fade" id="editProfile" tabindex="-1"
-                            aria-labelledby="vehicleModalEditForm" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="editProfileLabel">Edit Profile
-                                        </h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form action="myaccount-edit.php" method="POST">
-                                            <input type="hidden" class="update-profile" name="profileId"
-                                                id="profileDataId" value="">
-                                            <div class="form-group">
-                                                <label for="nameInput">Name</label>
-                                                <input type="text" class="form-control" id="nameInput"
-                                                    placeholder="Name" name="name">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="usernameInput">Username</label>
-                                                <input type="text" class="form-control" id="usernameInput"
-                                                    placeholder="Username" name="username">
-                                            </div>
-                                            <div class="footer">
-                                                <button type="submit" class="btn btn-primary w-100"
-                                                    name="update-profile" id="update-profile">Update
-                                                    Profile</button>
-                                            </div>
-                                        </form>
-                                    </div>
+            </div>
+            <div class="modal fade" id="editProfile" tabindex="-1" aria-labelledby="vehicleModalEditForm"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editProfileLabel">Edit Profile
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="myaccount-edit.php" method="POST">
+                                <input type="hidden" class="update-profile" name="profileId" id="profileDataId"
+                                    value="">
+                                <div class="form-group">
+                                    <label for="nameInput">Name</label>
+                                    <input type="text" class="form-control" id="nameInput" placeholder="Name"
+                                        name="name">
                                 </div>
-                            </div>
+                                <div class="form-group">
+                                    <label for="usernameInput">Username</label>
+                                    <input type="text" class="form-control" id="usernameInput" placeholder="Username"
+                                        name="username">
+                                </div>
+                                <div class="footer">
+                                    <button type="submit" class="btn btn-primary w-100" name="update-profile"
+                                        id="update-profile">Update
+                                        Profile</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -295,7 +357,7 @@ include("navbar.php");
                         console.log(responce);
                         $('#profileId').val(responce.adminId);
                         if (responce.profileimg !== '') {
-                            $("#previewImage-1").attr("src", "Picture/User/" + responce.profileimg);
+                            $("#previewImage-1").attr("src", "Picture/" + responce.profileimg);
                         } else {
                             // Show default image
                             $("#previewImage-1").attr("src", "Picture/User/user-1.png");
@@ -308,15 +370,15 @@ include("navbar.php");
                     }
                 });
             });
-            $('.edit-profile').click(function(e){
+            $('.edit-profile').click(function (e) {
                 e.preventDefault();
                 var profileId = $(this).data('id');
                 // console.log(profileId);
-                 // Fetch data via AJAX
-                 $.ajax({
+                // Fetch data via AJAX
+                $.ajax({
                     url: 'myaccount-data.php',
                     type: 'POST',
-                    data: {'profileId': profileId},
+                    data: { 'profileId': profileId },
                     success: function (result) {
                         var data = JSON.parse(result);
                         console.log(result);
@@ -324,14 +386,14 @@ include("navbar.php");
                         $('#nameInput').val(data.name);
                         $('#usernameInput').val(data.username);
                     },
-                    error: function(e){
+                    error: function (e) {
                         console.log(e);
-                         // Handle error if the AJAX request fails
-                         console.log('Failed to fetch data.');
+                        // Handle error if the AJAX request fails
+                        console.log('Failed to fetch data.');
 
                     }
 
-                 });
+                });
             })
         });
 //           $(document).ready(function() {

@@ -3,19 +3,31 @@
  include('session.php');
  if(isset($_POST['update-profile'])){
     $id = $_POST['profileId'];
-    $name = $_POST['name'];
+    $updateName = $_POST['name'];
     $username = $_POST['username'];
-    if ($name == $_SESSION['user_data']['name'] && $username = $_SESSION['user_data']['username']){
-      echo "Update condition met";
-      $query = "UPDATE `tblmasteradmin` SET `name` = '".$name."', `username` =  '".$username."' WHERE adminId = '" .  $id . "' ";
+      $query = "UPDATE `tblmasteradmin` SET `name` = '".$updateName."', `username` =  '".$username."' WHERE adminId = '" .  $id . "' ";
       $result = mysqli_query($conn, $query);
       if($result){
-        echo "Data Update";
-        header("Location : myaccount.php");
+        if(isset($_SESSION['user_data'])){
+          $_SESSION['user_data']->name = $updateName;
+          $_SESSION['user_data']->username = $username;
+        }
+        $_SESSION['message'] = '<div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle-fill"></i><span class="text">Profile Update Successfully</span>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>';
+                header("location: myaccount.php");
       }else{
-        echo "Something Wrong";
-        header("Location : myaccount.php");
+        $_SESSION['message'] = '<div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <i class="bi bi-exclamation-circle-fill"></i>
+        <span class="text">Something Wrong</span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>';
+      header("location: myaccount.php");
       }
     }
-  }
 ?>

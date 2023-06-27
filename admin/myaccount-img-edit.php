@@ -13,7 +13,7 @@ if (isset($_POST['update-image'])) {
   $ProfileId = $_POST['profileId'];
   if ($_FILES['profileImg']['error'] === UPLOAD_ERR_OK) {
     $imagePath = $_FILES['profileImg']['name'];
-    $uploadDir = 'Picture/User/';
+    $uploadDir = 'Picture/';
     $uploadPath = $uploadDir . basename($imagePath);
     if (move_uploaded_file($_FILES['profileImg']['tmp_name'], $uploadPath)) {
 
