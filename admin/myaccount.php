@@ -38,6 +38,7 @@ include("navbar.php");
         align-items: center;
 
     }
+
     input.form-control {
         border: 1px solid #D8C9C6;
         color: #262626;
@@ -47,6 +48,7 @@ include("navbar.php");
         height: 40px;
         margin-bottom: 20px;
     }
+
     input.form-control::placeholder {
         color: #262626;
     }
@@ -86,7 +88,7 @@ include("navbar.php");
         box-shadow: none;
     }
 
-    #imageInput-2 {
+    #imageInput {
         width: 65%;
         display: inline;
     }
@@ -163,6 +165,7 @@ include("navbar.php");
         background-color: red;
         color: #fff;
     }
+
     .cpassword-toggle {
         position: absolute;
         top: 27.5%;
@@ -173,6 +176,7 @@ include("navbar.php");
         transition: 0.5 ease all;
         /* margin-right: 5px; */
     }
+
     .cpassword-toggle .closed-eye {
         display: none;
     }
@@ -184,7 +188,8 @@ include("navbar.php");
     .show-cpassword .closed-eye {
         display: block;
     }
-    .npassword-toggle{
+
+    .npassword-toggle {
         position: absolute;
         top: 63%;
         right: 25px;
@@ -193,15 +198,20 @@ include("navbar.php");
         font-size: 25px;
         transition: 0.5 ease all;
     }
+
     .npassword-toggle .closed-eye {
         display: none;
     }
+
     .show-npassword .open-eye {
         display: none;
     }
 
     .show-npassword .closed-eye {
         display: block;
+    }
+    #errorContainer{
+        color: red;
     }
 
 
@@ -254,17 +264,17 @@ include("navbar.php");
                     <div class="col-lg-3">
                         <div class="profile-img">
 
-                            <div class="edit-img"><button type="button"
+                            <!-- <div class="edit-img"><button type="button"
                                     class="btn btn-primary mr-1 mt-1 update-btn btn-icon" name="uploadData"
                                     data-id="<?php echo $fetch->adminId; ?>" data-toggle="modal" data-target="#editImageForm"><i
                                         class="bi bi-camera-fill"></i></button>
-                            </div>
+                            </div> -->
                             <img src="Picture/<?php echo $path; ?>" alt="Profile Pic" class="profile-img">
 
                             <div class="image-upload-btn pt-3">
                                 <button type="button" class="btn btn-primary mr-1 mt-1 update-btn w-100" name="uploadData"
-                                    data-id="<?php echo $fetch->adminId; ?>" data-toggle="modal" data-target="#editImageForm"><i
-                                        class="bi bi-camera-fill"></i> Upload
+                                    data-id="<?php echo $fetch->adminId; ?>" data-toggle="modal"
+                                    data-target="#editImageForm"><i class="bi bi-camera-fill"></i> Upload
                                     Image</button>
                             </div>
 
@@ -288,11 +298,13 @@ include("navbar.php");
                                 <tr>
                                     <td><button type="button" class="btn btn-primary w-100 edit-profile"
                                             name="edit-profile-btn" data-id="<?php echo $fetch->adminId; ?>"
-                                            data-toggle="modal" data-target="#editProfileForm"><i class="bi bi-pencil"></i> Edit
+                                            data-toggle="modal" data-target="#editProfileForm"><i class="bi bi-pencil"></i>
+                                            Edit
                                             Profile</button></td>
                                     <td><button type="button" class="btn btn-primary w-100 edit-password"
                                             name="edit-profile-btn" data-id="<?php echo $fetch->adminId; ?>"
-                                            data-toggle="modal" data-target="#editPasswordForm"><i class="bi bi-pencil"></i> Edit
+                                            data-toggle="modal" data-target="#editPasswordForm"><i class="bi bi-pencil"></i>
+                                            Edit
                                             password</button></td>
                                 </tr>
                             </table>
@@ -323,10 +335,11 @@ include("navbar.php");
                                     id="edit-form">
                                     <input type="hidden" class="update-profileId" name="profileId" id="profileId">
                                     <div class="form-group pt-3 pb-2">
-                                        <input type="file" class="form-control imageInput-2" Name="profileImg"
-                                            id="imageInput-2" accept="image/*" value="">
+                                        <input type="file" class="form-control imageInput" Name="profileImg"
+                                            id="imageInput" accept="image/*" value="">
                                         <span class="img-upload"><img id="previewImage-1" src="" alt="Profile Image"
                                                 width="100" height="100"></span>
+                                        <div id="errorContainer"></div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="submit" class="btn btn-primary px-5 py-2" name="update-image"
@@ -375,49 +388,49 @@ include("navbar.php");
                     </div>
                 </div>
                 <!-- Modal form for update Password -->
-            <div class="modal fade" id="editPasswordForm" tabindex="-1" aria-labelledby="editPasswordForm"
-                aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="editPasswordLabel">Change Password
-                            </h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form action="password.php" method="POST">
-                                <input type="hidden" class="update-profile" name="profileId" id="profileDataId"
-                                    value="">
-                                <div class="form-group">
-                                    <label for="cpassword">Current Passsword</label>
-                                    <input type="password" class="form-control password" id="cpassword" placeholder="Current Password"
-                                        name="cpassword">
+                <div class="modal fade" id="editPasswordForm" tabindex="-1" aria-labelledby="editPasswordForm"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editPasswordLabel">Change Password
+                                </h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="password.php" method="POST">
+                                    <input type="hidden" class="update-profile" name="profileId" id="profileDataId"
+                                        value="">
+                                    <div class="form-group">
+                                        <label for="cpassword">Current Passsword</label>
+                                        <input type="password" class="form-control password" id="cpassword"
+                                            placeholder="Current Password" name="cpassword">
                                         <span class="cpassword-toggle" onclick="toggleOldPasswordVisibility()">
-                                    <i class="bi bi-eye-slash-fill closed-eye"></i>
-                                    <i class="bi bi-eye-fill open-eye"></i>
-                                </span>
-                                </div>
-                                <div class="form-group">
-                                    <label for="npassword">New Password</label>
-                                    <input type="password" class="form-control password" id="npassword" placeholder="New Password"
-                                        name="npassword">
+                                            <i class="bi bi-eye-slash-fill closed-eye"></i>
+                                            <i class="bi bi-eye-fill open-eye"></i>
+                                        </span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="npassword">New Password</label>
+                                        <input type="password" class="form-control password" id="npassword"
+                                            placeholder="New Password" name="npassword">
                                         <span class="npassword-toggle" onclick="toggleNewPasswordVisibility()">
-                                    <i class="bi bi-eye-slash-fill closed-eye"></i>
-                                    <i class="bi bi-eye-fill open-eye"></i>
-                                </span>
-                                </div>
-                                <div class="footer">
-                                    <button type="submit" class="btn btn-primary w-100" name="update-password"
-                                        id="update-password">Update
-                                        Password</button>
-                                </div>
-                            </form>
+                                            <i class="bi bi-eye-slash-fill closed-eye"></i>
+                                            <i class="bi bi-eye-fill open-eye"></i>
+                                        </span>
+                                    </div>
+                                    <div class="footer">
+                                        <button type="submit" class="btn btn-primary w-100" name="update-password"
+                                            id="update-password">Update
+                                            Password</button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
             </div>
 
         </div>
@@ -425,6 +438,51 @@ include("navbar.php");
 
     </div>
     <script>
+        $(document).ready(function () {
+            $('#imageInput').on('change', function () {
+                var fileInput = $(this);
+                var file = fileInput[0].files[0];
+
+                // Check if a file is selected
+                if (file) {
+                    // Check file size (in bytes)
+                    var fileSize = file.size;
+                    var maxSize = 2 * 1024 * 1024; // 2MB
+
+                    if (fileSize > maxSize) {
+                        // Display an error message if the file size exceeds the limit
+                        showError("File size should not exceed 2MB.");
+                        fileInput.val(''); // Clear the file input field
+                        return;
+                    }
+
+                    // Check file type
+                    var fileType = file.type;
+                    var allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+
+                    if (!allowedTypes.includes(fileType)) {
+                        // Display an error message if the file type is not supported
+                        showError("Only JPG, PNG, and GIF files are supported.");
+                        fileInput.val(''); // Clear the file input field
+                        return;
+                    }
+                }
+
+                // If the file passes validation or no file is selected, clear any previous error message
+                clearError();
+            });
+
+            function showError(errorMessage) {
+                // Display the error message in the errorContainer
+                $('#errorContainer').text(errorMessage);
+            }
+
+            function clearError() {
+                // Clear any previous error message from the errorContainer
+                $('#errorContainer').text('');
+            }
+        });
+        // Add eye button on toggle in current Password
         function toggleOldPasswordVisibility() {
             const oldPassword = document.getElementById("cpassword");
             const passwordToggle = document.querySelector(".cpassword-toggle");
@@ -452,6 +510,7 @@ include("navbar.php");
                 }
             });
         });
+        // Add eye button on toggle in New Password
         function toggleNewPasswordVisibility() {
             const newPassword = document.getElementById("npassword");
             const passwordToggle = document.querySelector(".npassword-toggle");
@@ -480,7 +539,7 @@ include("navbar.php");
             });
         });
         $(document).ready(function () {
-            document.getElementById('imageInput-2').addEventListener('change', function () {
+            document.getElementById('imageInput').addEventListener('change', function () {
                 var fileInput = this;
                 var previewImage = document.getElementById('previewImage-1');
 

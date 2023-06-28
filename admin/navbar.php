@@ -127,16 +127,17 @@ include("sidebar.php");
             <div class="search-bar">
                 <form action="" method="GET">
                     <span><i class="bi bi-search"></i></span>
-                    <input type="text" name="search" placeholder="Search here.." aria-label="search">
+                    <input type="text" name="search" id="searchInput" placeholder="Search here.." aria-label="search"
+                        oninput="searchSidebar()">
                 </form>
             </div>
             <div class="user d-flex pr-3">
                 <div class="user-img">
                     <?php
-                        $ImageId = $userdata->adminId;
-                        $sql = "SELECT* FROM `tblmasteradmin` WHERE `adminId` = '".$ImageId."'";
-                        $run = mysqli_query($conn, $sql);
-                        if($fetch = mysqli_fetch_object($run)){ 
+                    $ImageId = $userdata->adminId;
+                    $sql = "SELECT* FROM `tblmasteradmin` WHERE `adminId` = '" . $ImageId . "'";
+                    $run = mysqli_query($conn, $sql);
+                    if ($fetch = mysqli_fetch_object($run)) {
                         if ($fetch->profileimg == "") {
                             $path = 'User/user-1.png';
                         }
@@ -146,8 +147,8 @@ include("sidebar.php");
                         ?>
                         <img src="Picture/<?php echo $path; ?>" alt="" width="40px">
                         <?php
-                        }
-                        ?>
+                    }
+                    ?>
 
                 </div>
                 <div class="dropdown">
@@ -155,9 +156,9 @@ include("sidebar.php");
                         <h4 class="h4">
                             <?php
                             $profileId = $userdata->adminId;
-                            $sql = "SELECT* FROM `tblmasteradmin` WHERE `adminId` = '".$profileId."'";
+                            $sql = "SELECT* FROM `tblmasteradmin` WHERE `adminId` = '" . $profileId . "'";
                             $run = mysqli_query($conn, $sql);
-                            if($fetch = mysqli_fetch_object($run)){
+                            if ($fetch = mysqli_fetch_object($run)) {
                                 echo $fetch->name;
                             }
                             ?>
@@ -171,6 +172,31 @@ include("sidebar.php");
             </div>
         </div>
     </nav>
+    <script>
+        function searchSidebar() {
+            // Get the search query from the input field
+            var searchQuery = document.getElementById('searchInput').value.toLowerCase();
+
+            // Select the sidebar content
+            var sidebarContent = document.getElementById('sidbar-content');
+
+            // Get all the sidebar items
+            var sidebarItems = sidebarContent.getElementsByTagName('li');
+
+            // Loop through each sidebar item
+            for (var i = 0; i < sidebarItems.length; i++) {
+                var sidebarItem = sidebarItems[i];
+                var sidebarText = sidebarItem.textContent.toLowerCase();
+
+                // Show/hide sidebar items based on the search query
+                if (sidebarText.includes(searchQuery)) {
+                    sidebarItem.style.display = 'block';
+                } else {
+                    sidebarItem.style.display = 'none';
+                }
+            }
+        }
+    </script>
 </body>
 
 </html>

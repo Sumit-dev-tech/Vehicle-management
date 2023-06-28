@@ -204,7 +204,7 @@ function checkNavbar($className)
             <img src="Image/logo/logo-12.png" alt="" width="150px">
         </div>
         <div class="sidebar-menu">
-            <ul class="list-group">
+            <ul class="list-group" id="sidbar-content">
                 <li class="list-group-item <?php echo checkNavbar('dashboard'); ?>">
                     <a href="dashboard.php" class="list-item"> <span class="icon"><i class="bi bi-speedometer2"></i></span>
                         <span class="title">Dashboard</span></a>

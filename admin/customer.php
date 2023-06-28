@@ -28,7 +28,7 @@ include("navbar.php");
 
     .main-body {
         margin-left: 250px;
-        margin-top: 70px;
+        margin-top: 90px;
         width: calc(100% - 250px);
         padding: 20px;
 
@@ -59,11 +59,40 @@ include("navbar.php");
 
     .addCustomerButton {
         display: flex;
-        float: right;
         margin-bottom: 20px;
         width: 100%;
-        justify-content: end;
+        justify-content: space-between;
+        align-items: center;
     }
+    .addCustomerButton input.form-control{
+        margin-bottom: 0;
+        border-radius: 5px;
+        border: 1px solid #D8C9C6;
+    }
+   .addCustomerButton .btn-success{
+        background-color: #0066ff;
+        border: 0;
+    }
+    .addCustomerButton .btn-success:hover{
+        background-color: #80b3ff;
+        box-shadow: none;
+        border: 0;
+    }
+    .addCustomerButton .btn-success:focus{
+       box-shadow: none;
+       border: none;
+    }
+    .addCustomerButton .btn:focus{
+        box-shadow: none;
+        border: none;
+    }
+    .btn-success:not(:disabled):not(.disabled):active:focus{
+        box-shadow: none;
+        border: none;
+    } 
+    .btn-success:not(:disabled):not(.disabled):active{
+        background-color: #80b3ff;
+    } 
 
     .btn-primary {
         background-color: #0066ff;
@@ -110,7 +139,6 @@ include("navbar.php");
         outline: 0;
         font-size: 15px;
         height: 40px;
-        margin-bottom: 20px;
     }
 
     input.form-control::placeholder {
@@ -229,7 +257,11 @@ include("navbar.php");
         <!-- Model trigger Button -->
         <div class="addCustomerButton">
             <a href="#" class="btn btn-primary btn-lg" role="button" aria-pressed="true" data-toggle="modal"
-                data-target="#customerModalForm">Add Vehicle</a>
+                data-target="#customerModalForm">Add Customer</a>
+                <form class="form-inline" action="" method="">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="searchInput">
+                <button class="btn btn-success my-2 my-sm-0" type="submit" ><i class="bi bi-search"></i></button>
+            </form>
         </div>
         <!-- Modal Customer Form Start-->
         <div class="modal fade" id="customerModalForm" tabindex="-1" aria-labelledby="customerModalLabel"

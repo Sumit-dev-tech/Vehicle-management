@@ -28,7 +28,7 @@ include("navbar.php");
     .main-body {
         transition: margin-left 0.3s ease;
         margin-left: 250px;
-        margin-top: 70px;
+        margin-top: 90px;
         width: calc(100% - 250px);
         padding: 20px;
     }
@@ -62,11 +62,38 @@ include("navbar.php");
         width: 100%;
         display: flex;
         /* display: flex; */
-        float: right;
-        justify-content: end;
+        justify-content: space-between;
 
     }
-
+   .addVehicleButton input.form-control{
+        margin-bottom: 0;
+        border-radius: 5px;
+        border: 1px solid #D8C9C6;
+    }
+   .addVehicleButton .btn-success{
+        background-color: #0066ff;
+        border: 0;
+    }
+    .addVehicleButton .btn-success:hover{
+        background-color: #80b3ff;
+        box-shadow: none;
+        border: 0;
+    }
+    .addVehicleButton .btn-success:focus{
+       box-shadow: none;
+       border: none;
+    }
+    .addVehicleButton .btn:focus{
+        box-shadow: none;
+        border: none;
+    }
+    .btn-success:not(:disabled):not(.disabled):active:focus{
+        box-shadow: none;
+        border: none;
+    } 
+    .btn-success:not(:disabled):not(.disabled):active{
+        background-color: #80b3ff;
+    } 
     .addVehicleButton a.btn-primary,
     button.btn-primary {
         background-color: #0066ff;
@@ -75,7 +102,6 @@ include("navbar.php");
         box-shadow: none;
         font-size: 18px;
     }
-
     .addVehicleButton a.btn-primary:hover,
     button.btn-primary:hover {
         background-color: #80b3ff;
@@ -289,6 +315,10 @@ include("navbar.php");
         <div class="addVehicleButton">
             <a href="#" class="btn btn-primary btn-lg" role="button" aria-pressed="true" data-toggle="modal"
                 data-target="#vehicleModalForm">Add Vehicle</a>
+                <form class="form-inline" action="" method="">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-success my-2 my-sm-0" type="submit"><i class="bi bi-search"></i></button>
+            </form>
         </div>
         <!-- Modal Add Data start-->
         <div class="modal fade" id="vehicleModalForm" tabindex="-1" aria-labelledby="vehicleModalForm"

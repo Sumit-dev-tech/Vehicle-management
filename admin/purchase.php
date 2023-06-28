@@ -29,22 +29,22 @@ include("navbar.php");
     .main-body {
         transition: margin-left 0.3s ease;
         margin-left: 250px;
-        margin-top: 70px;
+        margin-top: 90px;
         width: calc(100% - 250px);
         padding: 20px;
     }
 
-    .addVehicleButton {
+    .addPurchaseButton {
         margin-bottom: 20px;
         width: 100%;
         display: flex;
         /* display: flex; */
-        float: right;
         justify-content: end;
+       justify-content: space-between;
 
     }
 
-    .addVehicleButton a.btn-primary,
+    .addPurchaseButton a.btn-primary,
     button.btn-primary {
         background-color: #0066ff;
         border: none;
@@ -53,13 +53,13 @@ include("navbar.php");
         font-size: 18px;
     }
 
-    .addVehicleButton a.btn-primary:hover,
+    .addPurchaseButton a.btn-primary:hover,
     button.btn-primary:hover {
         background-color: #80b3ff;
         box-shadow: none;
     }
 
-    .addVehicleButton a.btn-primary:focus,
+    .addPurchaseButton a.btn-primary:focus,
     button.btn-primary:focus {
         outline: 0;
         box-shadow: none;
@@ -70,6 +70,35 @@ include("navbar.php");
         border: none;
         box-shadow: none;
     }
+    .addPurchaseButton input.form-control{
+        margin-bottom: 0;
+        border-radius: 5px;
+        border: 1px solid #D8C9C6;
+    }
+   .addPurchaseButton .btn-success{
+        background-color: #0066ff;
+        border: 0;
+    }
+    .addPurchaseButton .btn-success:hover{
+        background-color: #80b3ff;
+        box-shadow: none;
+        border: 0;
+    }
+    .addPurchaseButton .btn-success:focus{
+       box-shadow: none;
+       border: none;
+    }
+    .addPurchaseButton .btn:focus{
+        box-shadow: none;
+        border: none;
+    }
+    .btn-success:not(:disabled):not(.disabled):active:focus{
+        box-shadow: none;
+        border: none;
+    } 
+    .btn-success:not(:disabled):not(.disabled):active{
+        background-color: #80b3ff;
+    } 
 
     #purchaseModalForm {
         width: 100%;
@@ -221,9 +250,13 @@ include("navbar.php");
             ?>
         </div>
         <!-- Button trigger modal -->
-        <div class="addVehicleButton">
+        <div class="addPurchaseButton">
             <a href="#" class="btn btn-primary btn-lg" role="button" aria-pressed="true" data-toggle="modal"
-                data-target="#purchaseModalForm">Add Vehicle</a>
+                data-target="#purchaseModalForm">Add Purchase</a>
+            <form class="form-inline" action="" method="">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-success my-2 my-sm-0" type="submit"><i class="bi bi-search"></i></button>
+            </form>
         </div>
         <!-- Modal Customer Form Start-->
         <div class="modal fade" id="purchaseModalForm" tabindex="-1" aria-labelledby="purchaseModalLabel"
@@ -231,7 +264,7 @@ include("navbar.php");
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="customerModalLabel">Customer Form</h5>
+                        <h5 class="modal-title" id="PurchaseModalLabel">Purchase Data Form</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -358,38 +391,52 @@ include("navbar.php");
                     $pDate = $fetch->purchase_date;
                     $purchaseDate = date('d/m/y', strtotime($pDate));
                     $vehicleDetails = $variant . '</br>' . $price
-                    ?>
+                        ?>
 
                     <tbody>
-                        <th scope="row"> <?php echo $purchaseId; ?> </th>
-                        <td><?php echo  $customerName; ?> </td>
-                        <td><?php echo  $mobile; ?> </td>
+                        <th scope="row">
+                            <?php echo $purchaseId; ?>
+                        </th>
                         <td>
-                        <span class="address-preview">
-                                    <?php
-                                    // Combine the address, city, country, state, and pincode into a single string
-                                    $address = $add . ',<br/>' . $city . ',<br/>' . $state . ',<br/>' . $country . '-' . $pincode;
-
-                                    // Display a preview of the address (e.g., first 50 characters)
-                                    echo substr($address, 0, 50);
-                                    ?>
-                                </span>
-                                <?php
-                                // Check if the address length exceeds the preview length
-                                if (strlen($address) > 50):
-                                    ?>
-                                    <span class="address-full" style="display: none;">
-                                        <?php echo $address; ?>
-                                    </span>
-                                    <a href="#" class="read-more-btn">Read More</a>
-                                    <?php
-                                endif
-                                ?>
+                            <?php echo $customerName; ?>
                         </td>
-                        <td> <?php echo  $vehicleDetails; ?> </td>
-                        <td> <?php echo  $numberOfPurchase; ?> </td>
-                        <td> <?php echo  $totalAmount; ?> </td>
-                        <td> <?php echo  $purchaseDate; ?> </td>
+                        <td>
+                            <?php echo $mobile; ?>
+                        </td>
+                        <td>
+                            <span class="address-preview">
+                                <?php
+                                // Combine the address, city, country, state, and pincode into a single string
+                                $address = $add . ',<br/>' . $city . ',<br/>' . $state . ',<br/>' . $country . '-' . $pincode;
+
+                                // Display a preview of the address (e.g., first 50 characters)
+                                echo substr($address, 0, 50);
+                                ?>
+                            </span>
+                            <?php
+                            // Check if the address length exceeds the preview length
+                            if (strlen($address) > 50):
+                                ?>
+                                <span class="address-full" style="display: none;">
+                                    <?php echo $address; ?>
+                                </span>
+                                <a href="#" class="read-more-btn">Read More</a>
+                                <?php
+                            endif
+                            ?>
+                        </td>
+                        <td>
+                            <?php echo $vehicleDetails; ?>
+                        </td>
+                        <td>
+                            <?php echo $numberOfPurchase; ?>
+                        </td>
+                        <td>
+                            <?php echo $totalAmount; ?>
+                        </td>
+                        <td>
+                            <?php echo $purchaseDate; ?>
+                        </td>
                     </tbody>
                     <?php
                     $i++;
