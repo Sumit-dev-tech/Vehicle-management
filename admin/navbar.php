@@ -125,9 +125,9 @@ include("sidebar.php");
                 </h1>
             </div>
             <div class="search-bar">
-                <form action="" method="GET">
+                <form class="form-inline" data-widget="sidebar-search">
                     <span><i class="bi bi-search"></i></span>
-                    <input type="text" name="search" id="searchInput" placeholder="Search here.." aria-label="search"
+                    <input type="search"  name="search" id="searchInput" placeholder="Search here.." aria-label="search"
                         oninput="searchSidebar()">
                 </form>
             </div>

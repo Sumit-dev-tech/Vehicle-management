@@ -64,35 +64,42 @@ include("navbar.php");
         justify-content: space-between;
         align-items: center;
     }
-    .addCustomerButton input.form-control{
+
+    .addCustomerButton input.form-control {
         margin-bottom: 0;
         border-radius: 5px;
         border: 1px solid #D8C9C6;
     }
-   .addCustomerButton .btn-success{
+
+    .addCustomerButton .btn-success {
         background-color: #0066ff;
         border: 0;
     }
-    .addCustomerButton .btn-success:hover{
+
+    .addCustomerButton .btn-success:hover {
         background-color: #80b3ff;
         box-shadow: none;
         border: 0;
     }
-    .addCustomerButton .btn-success:focus{
-       box-shadow: none;
-       border: none;
-    }
-    .addCustomerButton .btn:focus{
+
+    .addCustomerButton .btn-success:focus {
         box-shadow: none;
         border: none;
     }
-    .btn-success:not(:disabled):not(.disabled):active:focus{
+
+    .addCustomerButton .btn:focus {
         box-shadow: none;
         border: none;
-    } 
-    .btn-success:not(:disabled):not(.disabled):active{
+    }
+
+    .btn-success:not(:disabled):not(.disabled):active:focus {
+        box-shadow: none;
+        border: none;
+    }
+
+    .btn-success:not(:disabled):not(.disabled):active {
         background-color: #80b3ff;
-    } 
+    }
 
     .btn-primary {
         background-color: #0066ff;
@@ -235,8 +242,9 @@ include("navbar.php");
             width: calc(100% - 70px);
         }
     }
-    @media only screen and (max-width: 810px){
-        .main-body{
+
+    @media only screen and (max-width: 810px) {
+        .main-body {
             width: 100% !important;
             margin-left: 0;
             transition: 0.3s ease all;
@@ -253,15 +261,6 @@ include("navbar.php");
                 unset($_SESSION['message']);
             }
             ?>
-        </div>
-        <!-- Model trigger Button -->
-        <div class="addCustomerButton">
-            <a href="#" class="btn btn-primary btn-lg" role="button" aria-pressed="true" data-toggle="modal"
-                data-target="#customerModalForm">Add Customer</a>
-                <form class="form-inline" action="" method="">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="searchInput">
-                <button class="btn btn-success my-2 my-sm-0" type="submit" ><i class="bi bi-search"></i></button>
-            </form>
         </div>
         <!-- Modal Customer Form Start-->
         <div class="modal fade" id="customerModalForm" tabindex="-1" aria-labelledby="customerModalLabel"
@@ -359,8 +358,20 @@ include("navbar.php");
         </div>
         <!-- Modal Customer Form End-->
         <!-- Customer Data Table Start-->
+        <!-- search query -->
+        <!-- Model trigger Button -->
+        <div class="addCustomerButton">
+            <a href="#" class="btn btn-primary btn-lg" role="button" aria-pressed="true" data-toggle="modal"
+                data-target="#customerModalForm">Add Customer</a>
+            <form class="form-inline" action="" method="GET">
+                <input class="form-control mr-sm-2" type="text" placeholder="Search" name="search" aria-label="Search"
+                    id="search" onkeyup="searchFun()">
+                <!-- <button class="btn btn-success my-2 my-sm-0" type="submit" name="submit"><i
+                        class="bi bi-search"></i></button> -->
+            </form>
+        </div>
         <div class="table-vehicle">
-            <table class="table table-striped">
+            <table class="table table-striped" id="customerTable">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
@@ -374,7 +385,6 @@ include("navbar.php");
                     </tr>
                 </thead>
                 <?php
-                // $j=0;
                 $query = "SELECT * FROM `tblmastercustomer`";
                 $run = mysqli_query($conn, $query);
                 $i = 1;
@@ -445,6 +455,11 @@ include("navbar.php");
                     $i++;
                 }
                 ?>
+                <tfoot>
+                    <tr id="dataNotFoundRow" style="display: none;">
+                        <td colspan="8" align="center">Data not found</td>
+                    </tr>
+                </tfoot>
             </table>
         </div>
         <!-- Customer Data Table End-->
@@ -569,54 +584,95 @@ include("navbar.php");
     </div>
 
     <script type="text/javascript">
+        function searchFun() {
+            let filter = document.getElementById('search').value.toUpperCase();
+            let table = document.getElementById('customerTable');
+            let tr = table.getElementsByTagName('tr');
+
+            let resultsFound = false; // Flag to track if any results are found
+
+            for (var i = 1; i < tr.length; i++) {
+                let tdArray = tr[i].getElementsByTagName('td');
+                let rowMatch = false; // Flag to track if the row contains a match
+
+                for (var j = 0; j < tdArray.length; j++) {
+                    let td = tdArray[j];
+                    if (td) {
+                        let textValue = td.textContent || td.innerHTML;
+                        if (textValue.toUpperCase().indexOf(filter) > -1) {
+                            rowMatch = true;
+                            break; // Exit the loop if a match is found in any column
+                        }
+                    }
+                }
+
+                if (rowMatch) {
+                    tr[i].style.display = '';
+                    resultsFound = true;
+                } else {
+                    tr[i].style.display = 'none';
+                }
+            }
+
+            // Show/hide the "Data not found" row based on results
+            let dataNotFoundRow = document.getElementById('dataNotFoundRow');
+            if (!resultsFound) {
+                dataNotFoundRow.style.display = '';
+            } else {
+                dataNotFoundRow.style.display = 'none';
+            }
+        }
+
+
+
         // Country code list with country flags   
-    // const input = document.querySelector('.mobileNo');
+        // const input = document.querySelector('.mobileNo');
 
-    //   const iti = window.intlTelInput(input, {
-    //     initialCountry: 'auto',
-    //     geoIpLookup: callback => {
-    //       fetch('https://ipapi.co/json').then(res => res.json()).then(data => callback(data.country_code)).catch(() => callback('us'));
-    //     },
-    //     separateDialCode: true,
-    //     utilsScript: 'https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.min.js',
-    //   });
-      
-    //     // Set the default country based on the user's country
-    //     // const setDefaultCountry = () => {
-    //     //   const defaultCountry = iti.getSelectedCountryData();
-    //     //   const defaultFlagElement = document.createElement('div');
-    //     //   defaultFlagElement.classList.add('iti__selected-flag');
-    //     //   defaultFlagElement.innerHTML = `<div class="iti__flag iti__${defaultCountry.iso2}"></div>`;
+        //   const iti = window.intlTelInput(input, {
+        //     initialCountry: 'auto',
+        //     geoIpLookup: callback => {
+        //       fetch('https://ipapi.co/json').then(res => res.json()).then(data => callback(data.country_code)).catch(() => callback('us'));
+        //     },
+        //     separateDialCode: true,
+        //     utilsScript: 'https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.min.js',
+        //   });
 
-    //     //   const selectedFlagElement = mobileNumberInput.parentElement.querySelector('.iti__selected-flag');
-    //     //   selectedFlagElement.replaceWith(defaultFlagElement);
-    //     // };
+        //     // Set the default country based on the user's country
+        //     // const setDefaultCountry = () => {
+        //     //   const defaultCountry = iti.getSelectedCountryData();
+        //     //   const defaultFlagElement = document.createElement('div');
+        //     //   defaultFlagElement.classList.add('iti__selected-flag');
+        //     //   defaultFlagElement.innerHTML = `<div class="iti__flag iti__${defaultCountry.iso2}"></div>`;
 
-    //     // // Initialize the plugin after it has finished loading
-    //     // iti.promise.then(setDefaultCountry);
+        //     //   const selectedFlagElement = mobileNumberInput.parentElement.querySelector('.iti__selected-flag');
+        //     //   selectedFlagElement.replaceWith(defaultFlagElement);
+        //     // };
 
-    //     // Mobile number validation
-    //     input.addEventListener('input', validateMobileNumber);
+        //     // // Initialize the plugin after it has finished loading
+        //     // iti.promise.then(setDefaultCountry);
 
-    //     function validateMobileNumber() {
-    //         const isValidNumber = iti.isValidNumber();
+        //     // Mobile number validation
+        //     input.addEventListener('input', validateMobileNumber);
 
-    //         if (!isValidNumber) {
-    //             showError('Invalid mobile number');
-    //         } else {
-    //             clearError();
-    //         }
-    //     }
+        //     function validateMobileNumber() {
+        //         const isValidNumber = iti.isValidNumber();
 
-    //     function showError(message) {
-    //         const errorMessage = document.getElementById('error');
-    //         errorMessage.innerHTML = message;
-    //     }
+        //         if (!isValidNumber) {
+        //             showError('Invalid mobile number');
+        //         } else {
+        //             clearError();
+        //         }
+        //     }
 
-    //     function clearError() {
-    //         const errorMessage = document.getElementById('error');
-    //         errorMessage.innerHTML = '';
-    //     }
+        //     function showError(message) {
+        //         const errorMessage = document.getElementById('error');
+        //         errorMessage.innerHTML = message;
+        //     }
+
+        //     function clearError() {
+        //         const errorMessage = document.getElementById('error');
+        //         errorMessage.innerHTML = '';
+        //     }
         // Date Picker
         // document.addEventListener('DOMContentLoaded', function () {
         //     var dobInput = document.getElementsById('dobInput-1');

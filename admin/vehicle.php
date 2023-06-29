@@ -311,15 +311,6 @@ include("navbar.php");
             }
             ?>
         </div>
-        <!-- Button trigger modal -->
-        <div class="addVehicleButton">
-            <a href="#" class="btn btn-primary btn-lg" role="button" aria-pressed="true" data-toggle="modal"
-                data-target="#vehicleModalForm">Add Vehicle</a>
-                <form class="form-inline" action="" method="">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-success my-2 my-sm-0" type="submit"><i class="bi bi-search"></i></button>
-            </form>
-        </div>
         <!-- Modal Add Data start-->
         <div class="modal fade" id="vehicleModalForm" tabindex="-1" aria-labelledby="vehicleModalForm"
             aria-hidden="true">
@@ -389,9 +380,19 @@ include("navbar.php");
             </div>
         </div>
         <!-- Modal Add data End -->
+          <!-- Button trigger modal -->
+          <div class="addVehicleButton">
+            <a href="#" class="btn btn-primary btn-lg" role="button" aria-pressed="true" data-toggle="modal"
+                data-target="#vehicleModalForm">Add Vehicle</a>
+                <form class="form-inline" action="" method="GET">
+                <input class="form-control mr-sm-2" type="text" placeholder="Search" name="search" aria-label="Search"
+                    id="search" onkeyup="searchFun()">
+                <!-- <button class="btn btn-success my-2 my-sm-0" type="submit"><i class="bi bi-search"></i></button> -->
+            </form>
+        </div>
         <!-- Vehicle Data Table Start-->
         <div class="table-vehicle">
-            <table class="table table-striped">
+            <table class="table table-striped" id="customerTable">
                 <tr class="thead">
                     <th scope="col">#</th>
                     <th scope="col">Model#</th>
@@ -449,6 +450,11 @@ include("navbar.php");
                     $i++;
                 }
                 ?>
+                  <tfoot>
+                    <tr id="dataNotFoundRow" style="display: none;">
+                        <td colspan="8" align="center">Data not found</td>
+                    </tr>
+                </tfoot>
             </table>
         </div>
         <!-- Vehicle Data Table End-->
@@ -551,6 +557,45 @@ include("navbar.php");
 
     </div>
     <script type="text/javascript">
+        // Search Vehicle Data
+         function searchFun() {
+            let filter = document.getElementById('search').value.toUpperCase();
+            let table = document.getElementById('customerTable');
+            let tr = table.getElementsByTagName('tr');
+
+            let resultsFound = false; // Flag to track if any results are found
+
+            for (var i = 1; i < tr.length; i++) {
+                let tdArray = tr[i].getElementsByTagName('td');
+                let rowMatch = false; // Flag to track if the row contains a match
+
+                for (var j = 0; j < tdArray.length; j++) {
+                    let td = tdArray[j];
+                    if (td) {
+                        let textValue = td.textContent || td.innerHTML;
+                        if (textValue.toUpperCase().indexOf(filter) > -1) {
+                            rowMatch = true;
+                            break; // Exit the loop if a match is found in any column
+                        }
+                    }
+                }
+
+                if (rowMatch) {
+                    tr[i].style.display = '';
+                    resultsFound = true;
+                } else {
+                    tr[i].style.display = 'none';
+                }
+            }
+
+            // Show/hide the "Data not found" row based on results
+            let dataNotFoundRow = document.getElementById('dataNotFoundRow');
+            if (!resultsFound) {
+                dataNotFoundRow.style.display = '';
+            } else {
+                dataNotFoundRow.style.display = 'none';
+            }
+        }
         // Image Overlay
         $(document).ready(function () {
             // Get the popup overlay and image
