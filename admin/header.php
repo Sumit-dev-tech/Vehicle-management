@@ -21,21 +21,14 @@ include("timzone.php");
         href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap"
         rel="stylesheet">
     <!-- Internation phone field  -->
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.1.6/css/intlTelInput.css"
-        integrity="sha512-Ky9SFgkYYIAWfFbsz+Tvrs+kpW7mgyQu+glUEnVV60+nxDPe64w0CrYRSMKsmTwJtN2jXNmU5SBgcyzKOwsn3w=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.1.6/js/intlTelInput.min.js"
-        integrity="sha512-TJcZiZrZVz21UAAVhWdDyVWIBVa7mGSWk3jrmrq/laOjpoi+bSsCSN51WG5YKwGp4ZmOhlg5PZZKzR9hReehiw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.1.6/css/intlTelInput.css"/>
     <!-- <title>Dashboard|Vehicle Management</title> -->
 </head>
 
 <body>
     <!-- Internation phone field  -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.1.6/js/intlTelInput-jquery.js"
-        integrity="sha512-2yu/HE62PWf9ilb9G8EydvLA/xvVpOSOB6TzANmKRYzinIRhrVKjVm5m7VGGDaktGPOpzpjtT/esT725APDTTg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.1.6/js/intlTelInput.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.1.6/js/utils.js"></script>
     <!-- Option 2: Separate Popper and Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"

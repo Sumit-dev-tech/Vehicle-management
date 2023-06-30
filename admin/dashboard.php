@@ -62,9 +62,10 @@ include("navbar.php");
 
     .card-single .card-icon span i {
         font-size: 50px;
-        background: -webkit-linear-gradient(left, #80b3ff, #0066ff);
+        /* background: -webkit-linear-gradient(left, #80b3ff, #0066ff);
         -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        -webkit-text-fill-color: transparent; */
+        color: #0000b3;
     }
 
     @media only screen and (max-width: 1200px) {

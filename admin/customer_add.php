@@ -2,8 +2,7 @@
  require ("header.php");
  if (isset($_POST['submit_data'])) {
     $cName = $_POST['cname'];
-    // $countryCode = $_POST['countrycode'];
-    
+    // $countryCode = $_POST['countryCode'];
     $mobile = $_POST['mobile'];
     $email = $_POST['email'];
     $gender = $_POST['gender'];

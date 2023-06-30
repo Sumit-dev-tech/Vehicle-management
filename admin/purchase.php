@@ -158,7 +158,7 @@ include("navbar.php");
 
     .table thead tr th {
         border: none;
-        background: linear-gradient(45deg, #80b3ff 0%, #0066ff 100%);
+        background: #0000b3;
         text-align: center;
         color: #ffffff;
         border: 2px solid #f5f5f5;

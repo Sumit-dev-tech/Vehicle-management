@@ -36,7 +36,7 @@ include("navbar.php");
 
     .table thead tr th {
         border: none;
-        background: linear-gradient(45deg, #80b3ff 0%, #0066ff 100%);
+        background: #0000b3;
         text-align: center;
         color: #ffffff;
         border: 2px solid #f5f5f5;
@@ -282,10 +282,11 @@ include("navbar.php");
                             </div>
                             <div class="form-group">
                                 <label for="mobileInput" class="d-block">Phone Number</label>
-                                <!-- <input type="hidden" id="countryCode" name="countryCode"> -->
-                                <input type="tel" class="form-control mobileNo d-inline-block " id="mobileInput-1"
-                                    placeholder="Phone Number" name="mobile" required>
-                                <!-- <span id="error" class="hide error d-block" style="color:red;"></span> -->
+                                <input type="hidden" class="form-control d-inline-block " id="countryCode"
+                                    name="countryCode">
+                                <input type="tel" class="form-control d-inline-block " id="mobileInput-1"
+                                    placeholder="Phone Number" name="mobile"  required>
+                                <span id="error" class="hide error d-block" style="color:red;"></span>
                             </div>
                             <div class="form-group">
                                 <label for="emailInput">Email Address</label>
@@ -484,9 +485,11 @@ include("navbar.php");
                             </div>
                             <div class="form-group">
                                 <label for="mobileInput" class="d-block">Phone Number</label>
-                                <input type="tel" class="form-control mobileNo d-block" id="mobileInput"
+                                <input type="hidden" class="form-control d-inline-block " id="countryCode-1"
+                                    name="countryCode">
+                                <input type="tel" class="form-control d-inline-block" id="mobileInput"
                                     placeholder="Phone Number" name="mobile">
-                                <span id="error-1" class="hide error d-block" style="color:red;"></span>
+                                <!-- <span id="error-1" class="hide error d-block" style="color:red;"></span> -->
                             </div>
                             <div class="form-group">
                                 <label for="emailInput">Email Address</label>
@@ -583,6 +586,7 @@ include("navbar.php");
         <!-- Modal Delete Data End-->
     </div>
 
+    <script src="international_phone.js"></script>
     <script type="text/javascript">
         function searchFun() {
             let filter = document.getElementById('search').value.toUpperCase();
@@ -744,7 +748,6 @@ include("navbar.php");
 
 
         $(document).ready(function () {
-
 
             // add read more button for address field
             $('.read-more-btn').click(function () {

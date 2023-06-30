@@ -33,7 +33,7 @@ function checkNavbar($className)
     .sidebar {
         width: 250px;
         height: 100vh;
-        background: linear-gradient(45deg, #80b3ff 0%, #0066ff 100%);
+        background: #0000b3;
         position: fixed;
         left: 0;
         top: 0;
