@@ -594,7 +594,7 @@ include("navbar.php");
         <!-- Modal Delete Data End-->
     </div>
 
-    <script src="international_phone.js"></script>
+    <script src="../js/international_phone.js"></script>
     <script type="text/javascript">
         function searchFun() {
             let filter = document.getElementById('search').value.toUpperCase();
