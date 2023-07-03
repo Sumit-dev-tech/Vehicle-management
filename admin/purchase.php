@@ -565,7 +565,9 @@ include("navbar.php");
 
                         // Populate address fields
                         $('#customerId').val(data.customerId)
-                        $('#mobileInput').val(data.mobile);
+                        // $('#mobileInput').val(data.mobile);
+                        var mobileInput = document.querySelector("#mobileInput");
+                        mobileInput.value = data.countrycode + data.mobile;
                         $('#addressInput').val(data.address);
                         $('#cityInput').val(data.city);
                         $('#stateInput').val(data.state);

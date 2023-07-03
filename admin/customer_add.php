@@ -2,7 +2,7 @@
  require ("header.php");
  if (isset($_POST['submit_data'])) {
     $cName = $_POST['cname'];
-    // $countryCode = $_POST['countryCode'];
+    $countryCode = $_POST['countrycode'];
     $mobile = $_POST['mobile'];
     $email = $_POST['email'];
     $gender = $_POST['gender'];
@@ -13,7 +13,7 @@
     $country = $_POST['country'];
     $pincode = $_POST['pincode'];
        
-     $query = "INSERT INTO `tblmastercustomer`(`name`,`mobile`, `email`, `gender`, `dob`, `address`, `city`, `state`, `country`, `pincode`) VALUES ('".$cName."','".$mobile."','".$email."','".$gender."','".$dob."','".$address."','".$city."','".$state."','".$country."','".$pincode."')";
+     $query = "INSERT INTO `tblmastercustomer`(`name`,`countrycode`,`mobile`, `email`, `gender`, `dob`, `address`, `city`, `state`, `country`, `pincode`) VALUES ('".$cName."','". $countryCode."','".$mobile."','".$email."','".$gender."','".$dob."','".$address."','".$city."','".$state."','".$country."','".$pincode."')";
     $run = mysqli_query($conn, $query);
     if ($run) {
         $_SESSION['message']= '<div class="alert alert-success alert-dismissible fade show" role="alert">

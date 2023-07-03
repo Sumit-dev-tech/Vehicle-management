@@ -194,6 +194,12 @@ include("navbar.php");
         box-shadow: none;
     }
 
+    #countryCodeDropdown {
+        position: absolute;
+        left: -89%;
+        top: -12.5%;
+    }
+
     .alert .bi {
         font-size: 25px;
         margin-right: 20px;
@@ -282,11 +288,11 @@ include("navbar.php");
                             </div>
                             <div class="form-group">
                                 <label for="mobileInput" class="d-block">Phone Number</label>
-                                <input type="hidden" class="form-control d-inline-block " id="countryCode"
-                                    name="countryCode">
-                                <input type="tel" class="form-control d-inline-block " id="mobileInput-1"
-                                    placeholder="Phone Number" name="mobile"  required>
-                                <span id="error" class="hide error d-block" style="color:red;"></span>
+                                <input type="hidden" class="form-control d-inline-block w-30" id="countryCode"
+                                    name="countrycode">
+                                <input type="tel" class="form-control d-inline-block w-70" id="mobileInput-1"
+                                    placeholder="Phone Number" name="mobile" required>
+                                <span id="error_message" class="error d-block" style="color:red;"></span>
                             </div>
                             <div class="form-group">
                                 <label for="emailInput">Email Address</label>
@@ -391,12 +397,14 @@ include("navbar.php");
                 $i = 1;
                 while ($fetch = mysqli_fetch_object($run)) {
                     $formatedob = $fetch->dob;
+                    $countryCode = $fetch->countrycode;
                     $add = $fetch->address;
                     $city = $fetch->city;
                     $state = $fetch->state;
                     $country = $fetch->country;
                     $pincode = $fetch->pincode;
                     $formatdobDate = date('d/m/y', strtotime($formatedob));
+                    $phoneNumber = $countryCode . $fetch->mobile;
 
                     ?>
                     <tbody>
@@ -408,7 +416,7 @@ include("navbar.php");
                                 <?php echo $fetch->name; ?>
                             </td>
                             <td>
-                                <?php echo $fetch->mobile; ?>
+                                <?php echo $phoneNumber; ?>
                             </td>
                             <td>
                                 <?php echo $fetch->email; ?>
@@ -476,7 +484,7 @@ include("navbar.php");
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form action="customer_edit.php" method="post" enctype="multipart/form-data">
+                        <form action="customer_edit.php" method="post" enctype="multipart/form-data" id="customerEditForm">
                             <input type="hidden" class="customer-edit" name="id" id="customer-edit">
                             <div class="form-group">
                                 <label for="nameInput">Customer Name</label>
@@ -489,7 +497,7 @@ include("navbar.php");
                                     name="countryCode">
                                 <input type="tel" class="form-control d-inline-block" id="mobileInput"
                                     placeholder="Phone Number" name="mobile">
-                                <!-- <span id="error-1" class="hide error d-block" style="color:red;"></span> -->
+                                <span id="error-1" class="hide error d-block" style="color:red;"></span>
                             </div>
                             <div class="form-group">
                                 <label for="emailInput">Email Address</label>
@@ -750,7 +758,8 @@ include("navbar.php");
         $(document).ready(function () {
 
             // add read more button for address field
-            $('.read-more-btn').click(function () {
+            $('.read-more-btn').click(function (event) {
+                event.preventDefault(); // Prevent default anchor tag behavior
                 var addressPreview = $(this).siblings('.address-preview');
                 var addressFull = $(this).siblings('.address-full');
 
@@ -791,7 +800,11 @@ include("navbar.php");
                         console.log(data);
                         $('#customer-edit').val(data.customerId);
                         $('#nameInput').val(data.name);
-                        $('#mobileInput').val(data.mobile);
+                        // $('#countryCode-1').val(data.countrycode);
+                        // $('#mobileInput').val(data.mobile);
+
+                        var mobileInput = document.querySelector("#mobileInput");
+                        mobileInput.value = data.countrycode + data.mobile;
                         $('#emailInput').val(data.email);
                         $('input[name=gender][value="' + data.gender + '"]').prop('checked', true);
                         $('#dobInput').val(data.dob);
