@@ -56,6 +56,7 @@
 //   return '';
 // }
 var input = document.querySelector("#mobileInput-1");
+
 var iti = window.intlTelInput(input, {
     separateDialCode: true,
     utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.12/js/utils.js",
@@ -73,6 +74,11 @@ input.addEventListener('countrychange', updateCountryCode);
 // Get the selected country code initially
 updateCountryCode();
 
+input.addEventListener('input', function () {
+      const mobileNumber = input.value;
+      const onlyNumbers = mobileNumber.replace(/\D/g, '');
+      input.value = onlyNumbers;
+});
 // Validate the phone number when the form is submitted
 var form = document.querySelector("#customerForm"); // Replace "yourFormId" with the actual ID of your form
 form.addEventListener('submit', function (event) {
