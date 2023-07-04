@@ -65,35 +65,43 @@ include("navbar.php");
         justify-content: space-between;
 
     }
-   .addVehicleButton input.form-control{
+
+    .addVehicleButton input.form-control {
         margin-bottom: 0;
         border-radius: 5px;
         border: 1px solid #D8C9C6;
     }
-   .addVehicleButton .btn-success{
+
+    .addVehicleButton .btn-success {
         background-color: #0066ff;
         border: 0;
     }
-    .addVehicleButton .btn-success:hover{
+
+    .addVehicleButton .btn-success:hover {
         background-color: #80b3ff;
         box-shadow: none;
         border: 0;
     }
-    .addVehicleButton .btn-success:focus{
-       box-shadow: none;
-       border: none;
-    }
-    .addVehicleButton .btn:focus{
+
+    .addVehicleButton .btn-success:focus {
         box-shadow: none;
         border: none;
     }
-    .btn-success:not(:disabled):not(.disabled):active:focus{
+
+    .addVehicleButton .btn:focus {
         box-shadow: none;
         border: none;
-    } 
-    .btn-success:not(:disabled):not(.disabled):active{
+    }
+
+    .btn-success:not(:disabled):not(.disabled):active:focus {
+        box-shadow: none;
+        border: none;
+    }
+
+    .btn-success:not(:disabled):not(.disabled):active {
         background-color: #80b3ff;
-    } 
+    }
+
     .addVehicleButton a.btn-primary,
     button.btn-primary {
         background-color: #0066ff;
@@ -102,6 +110,7 @@ include("navbar.php");
         box-shadow: none;
         font-size: 18px;
     }
+
     .addVehicleButton a.btn-primary:hover,
     button.btn-primary:hover {
         background-color: #80b3ff;
@@ -291,9 +300,19 @@ include("navbar.php");
         background-color: red;
         color: #fff;
     }
+    .pagination{
+        float: right;
+    }
+    .page-link:focus{
+        box-shadow: none;
+    }
+    .page-item.active .page-link{
+        background-color: #0000b3;
+        border-color: #0000b3;
+    }
 
-    @media only screen and (max-width: 810px){
-        .main-body{
+    @media only screen and (max-width: 810px) {
+        .main-body {
             width: 100%;
             margin-left: 0;
             transition: 0.5s ease all;
@@ -348,8 +367,7 @@ include("navbar.php");
                             </div>
                             <div class="form-group">
                                 <label for="colorInput-1">Colour</label>
-                                <select class="form-control" id="colorInput-1" placeholder="Select Color"
-                                    name="color">
+                                <select class="form-control" id="colorInput-1" placeholder="Select Color" name="color">
                                     <option value="Select Color">Select Color</option>
                                     <option value="Brown">Brown</option>
                                     <option value="Red">Red</option>
@@ -380,11 +398,11 @@ include("navbar.php");
             </div>
         </div>
         <!-- Modal Add data End -->
-          <!-- Button trigger modal -->
-          <div class="addVehicleButton">
+        <!-- Button trigger modal -->
+        <div class="addVehicleButton">
             <a href="#" class="btn btn-primary btn-lg" role="button" aria-pressed="true" data-toggle="modal"
                 data-target="#vehicleModalForm">Add Vehicle</a>
-                <form class="form-inline" action="" method="GET">
+            <form class="form-inline" action="" method="GET">
                 <input class="form-control mr-sm-2" type="text" placeholder="Search" name="search" aria-label="Search"
                     id="search" onkeyup="searchFun()">
                 <!-- <button class="btn btn-success my-2 my-sm-0" type="submit"><i class="bi bi-search"></i></button> -->
@@ -405,7 +423,14 @@ include("navbar.php");
                 </tr>
                 <?php
                 // $j=0;
-                $query = "SELECT * FROM `tblmastervehicle` WHERE isDeleted='0'";
+                $limit = 5;
+                if(isset($_GET['page'])){
+                    $page = $_GET['page'];
+                }else{
+                    $page = 1;
+                }
+                $offset = ($page - 1) * $limit;
+                $query = "SELECT * FROM `tblmastervehicle` WHERE isDeleted='0' LIMIT {$offset},{$limit}";
                 $run = mysqli_query($conn, $query);
                 $i = 1;
                 while ($fetch = mysqli_fetch_object($run)) {
@@ -450,12 +475,44 @@ include("navbar.php");
                     $i++;
                 }
                 ?>
-                  <tfoot>
+                <tfoot>
                     <tr id="dataNotFoundRow" style="display: none;">
                         <td colspan="8" align="center">Data not found</td>
                     </tr>
                 </tfoot>
             </table>
+            <!-- Paggination Add -->
+            <?php
+             $sql = "SELECT * FROM `tblmastervehicle`";
+             $run = mysqli_query($conn, $sql) or die('Query Failed.');
+             if(mysqli_num_rows($run) > 0){
+                $totalRecord = mysqli_num_rows($run);
+                $totalPage =   ceil($totalRecord /  $limit);
+                echo ' <ul class="pagination">';
+                if($page > 1){
+                    echo ' <li class="page-item">
+                <a class="page-link" href="vehicle.php?page='.($page - 1).'" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>';
+                }
+              
+              for($i=1; $i <= $totalPage; $i++){
+                if($i == $page){
+                    $active = "active";
+                }else{
+                    $active = "";
+                }
+                echo ' <li class="page-item '.$active .'" aria-current="page"><a class="page-link" href="vehicle.php?page='.$i.'">'.$i.'</a></li>';
+              }
+              if($totalPage > $page){
+                echo '<li class="page-item"><a class="page-link" href="vehicle.php?page='.($page + 1).'" aria-label="Next"><span aria-hidden="true">&raquo;</span>
+                </a></li>';
+              }
+            
+              echo '</ul>';
+             }
+             ?>
         </div>
         <!-- Vehicle Data Table End-->
         <!-- Modal Update Data start-->
@@ -558,7 +615,7 @@ include("navbar.php");
     </div>
     <script type="text/javascript">
         // Search Vehicle Data
-         function searchFun() {
+        function searchFun() {
             let filter = document.getElementById('search').value.toUpperCase();
             let table = document.getElementById('customerTable');
             let tr = table.getElementsByTagName('tr');

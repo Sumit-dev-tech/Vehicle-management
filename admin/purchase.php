@@ -221,6 +221,16 @@ include("navbar.php");
     .alert-warning {
         background-color: red;
         color: #fff;
+    }  
+    .pagination{
+        float: right;
+    }
+    .page-link:focus{
+        box-shadow: none;
+    }
+    .page-item.active .page-link{
+        background-color: #0000b3;
+        border-color: #0000b3;
     }
 
     @media only screen and (max-width: 1200px) {
@@ -371,7 +381,14 @@ include("navbar.php");
                     </tr>
                 </thead>
                 <?php
-                $sql = "SELECT p.purchaseId, c.name, c.mobile, c.address, c.city, c.state, c.country, c.pincode, v.variant, v.price, p.no_purchase, p.total_amount, p.purchase_date FROM tblpurchasedata p INNER JOIN tblmastercustomer c ON p.customerId = c.customerId INNER JOIN tblmastervehicle v ON p.vehicleId = v.vehicleId WHERE v.isDeleted='0' ORDER BY purchaseId ASC;";
+                 $limit = 5;
+                 if(isset($_GET['page'])){
+                     $page = $_GET['page'];
+                 }else{
+                     $page = 1;
+                 }
+                 $offset = ($page - 1) * $limit;
+                $sql = "SELECT p.purchaseId, c.name, c.countrycode, c.mobile, c.address, c.city, c.state, c.country, c.pincode, v.variant, v.price, p.no_purchase, p.total_amount, p.purchase_date FROM tblpurchasedata p INNER JOIN tblmastercustomer c ON p.customerId = c.customerId INNER JOIN tblmastervehicle v ON p.vehicleId = v.vehicleId WHERE v.isDeleted='0' ORDER BY purchaseId ASC LIMIT {$offset},{$limit}";
                 $result = mysqli_query($conn, $sql);
                 if (!$result) {
                     die("Query failed: " . mysqli_error($conn));
@@ -380,7 +397,9 @@ include("navbar.php");
                 while ($fetch = mysqli_fetch_object($result)) {
                     $purchaseId = $fetch->purchaseId;
                     $customerName = $fetch->name;
+                    $countryCode = $fetch->countrycode;
                     $mobile = $fetch->mobile;
+                    $phoneNumber = $countryCode . $mobile;
                     $add = $fetch->address;
                     $city = $fetch->city;
                     $state = $fetch->state;
@@ -393,7 +412,7 @@ include("navbar.php");
                     $pDate = $fetch->purchase_date;
                     $purchaseDate = date('d/m/y', strtotime($pDate));
                     $vehicleDetails = $variant . '</br>' . $price
-                        ?>
+                ?>
 
                     <tbody>
                         <th scope="row">
@@ -403,7 +422,7 @@ include("navbar.php");
                             <?php echo $customerName; ?>
                         </td>
                         <td>
-                            <?php echo $mobile; ?>
+                            <?php echo $phoneNumber; ?>
                         </td>
                         <td>
                             <span class="address-preview">
@@ -451,6 +470,38 @@ include("navbar.php");
                 </tfoot>
 
             </table>
+              <!-- Paggination Add -->
+              <?php
+             $sql = "SELECT * FROM `tblpurchasedata`";
+             $run = mysqli_query($conn, $sql) or die('Query Failed.');
+             if(mysqli_num_rows($run) > 0){
+                $totalRecord = mysqli_num_rows($run);
+                $totalPage =   ceil($totalRecord /  $limit);
+                echo ' <ul class="pagination">';
+                if($page > 1){
+                    echo ' <li class="page-item">
+                <a class="page-link" href="purchase.php?page='.($page - 1).'" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>';
+                }
+              
+              for($i=1; $i <= $totalPage; $i++){
+                if($i == $page){
+                    $active = "active";
+                }else{
+                    $active = "";
+                }
+                echo ' <li class="page-item '.$active .'" aria-current="page"><a class="page-link" href="purchase.php?page='.$i.'">'.$i.'</a></li>';
+              }
+              if($totalPage > $page){
+                echo '<li class="page-item"><a class="page-link" href="purchase.php?page='.($page + 1).'" aria-label="Next"><span aria-hidden="true">&raquo;</span>
+                </a></li>';
+              }
+            
+              echo '</ul>';
+             }
+             ?>
 
         </div>
     </div>

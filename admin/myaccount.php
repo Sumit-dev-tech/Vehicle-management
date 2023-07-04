@@ -213,6 +213,9 @@ include("navbar.php");
     #errorContainer{
         color: red;
     }
+    .welcome-user{
+        font-size: 25px;
+    }
 
 
     @media only screen and (max-width: 1200px) {
@@ -242,11 +245,7 @@ include("navbar.php");
             ?>
         </div>
         <div class="container">
-            <h1>Welcome,
-                <?php echo $userdata->name; ?>
-            </h1>
-            <div class="row col-lg-12 pt-5">
-                <?php
+        <?php
                 // $username = mysqli_real_escape_string($conn, $_POST['username']);
                 $id = $userdata->adminId;
                 $sql = "SELECT * FROM `tblmasteradmin` WHERE `adminId`=  '" . $id . "'";
@@ -261,6 +260,11 @@ include("navbar.php");
                         $path = $fetch->profileimg;
                     }
                     ?>
+            <h1 class="welcome-user">Welcome,
+                <?php echo $fetch->name; ?>
+            </h1>
+            <div class="row col-lg-12 pt-5">
+              
                     <div class="col-lg-3">
                         <div class="profile-img">
 

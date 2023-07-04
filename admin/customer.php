@@ -241,6 +241,17 @@ include("navbar.php");
         max-width: 350px;
         overflow-x: hidden;
     }
+    .pagination{
+        float: right;
+    }
+    .page-link:focus{
+        box-shadow: none;
+    }
+    .page-item.active .page-link{
+        background-color: #0000b3;
+        border-color: #0000b3;
+    }
+
 
     @media only screen and (max-width: 1200px) {
         .main-body {
@@ -392,7 +403,14 @@ include("navbar.php");
                     </tr>
                 </thead>
                 <?php
-                $query = "SELECT * FROM `tblmastercustomer`";
+                  $limit = 5;
+                  if(isset($_GET['page'])){
+                      $page = $_GET['page'];
+                  }else{
+                      $page = 1;
+                  }
+                  $offset = ($page - 1) * $limit;
+                $query = "SELECT * FROM `tblmastercustomer` LIMIT {$offset},{$limit}";
                 $run = mysqli_query($conn, $query);
                 $i = 1;
                 while ($fetch = mysqli_fetch_object($run)) {
@@ -470,6 +488,38 @@ include("navbar.php");
                     </tr>
                 </tfoot>
             </table>
+             <!-- Paggination Add -->
+             <?php
+             $sql = "SELECT * FROM `tblmastercustomer`";
+             $run = mysqli_query($conn, $sql) or die('Query Failed.');
+             if(mysqli_num_rows($run) > 0){
+                $totalRecord = mysqli_num_rows($run);
+                $totalPage =   ceil($totalRecord /  $limit);
+                echo ' <ul class="pagination">';
+                if($page > 1){
+                    echo ' <li class="page-item">
+                <a class="page-link" href="customer.php?page='.($page - 1).'" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>';
+                }
+              
+              for($i=1; $i <= $totalPage; $i++){
+                if($i == $page){
+                    $active = "active";
+                }else{
+                    $active = "";
+                }
+                echo ' <li class="page-item '.$active .'" aria-current="page"><a class="page-link" href="customer.php?page='.$i.'">'.$i.'</a></li>';
+              }
+              if($totalPage > $page){
+                echo '<li class="page-item"><a class="page-link" href="customer.php?page='.($page + 1).'" aria-label="Next"><span aria-hidden="true">&raquo;</span>
+                </a></li>';
+              }
+            
+              echo '</ul>';
+             }
+             ?>
         </div>
         <!-- Customer Data Table End-->
         <!-- Modal Edit Customer Form Start-->
