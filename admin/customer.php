@@ -428,7 +428,7 @@ include("navbar.php");
                     <tbody>
                         <tr>
                             <th scope="row">
-                                <?php echo $i; ?>
+                                <?php echo $fetch->customerId; ?>
                             </th>
                             <td>
                                 <?php echo $fetch->name; ?>

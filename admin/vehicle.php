@@ -300,17 +300,29 @@ include("navbar.php");
         background-color: red;
         color: #fff;
     }
-    .pagination{
-        float: right;
+
+    .footer{
+        display: flex;
+        justify-content: space-between;
     }
-    .page-link:focus{
+
+    .page-link:focus {
         box-shadow: none;
     }
-    .page-item.active .page-link{
+
+    .page-item.active .page-link {
         background-color: #0000b3;
         border-color: #0000b3;
     }
-
+    .btn-dark{
+        border-radius: 0;
+    }
+    .btn-dark:not(:disabled):not(.disabled):active:focus{
+        box-shadow: none;
+    }
+    .btn-dark:focus, .btn:focus{
+        box-shadow: none;
+    }
     @media only screen and (max-width: 810px) {
         .main-body {
             width: 100%;
@@ -424,9 +436,10 @@ include("navbar.php");
                 <?php
                 // $j=0;
                 $limit = 5;
-                if(isset($_GET['page'])){
+                if (isset($_GET['page'])) {
                     $page = $_GET['page'];
-                }else{
+                }
+                else {
                     $page = 1;
                 }
                 $offset = ($page - 1) * $limit;
@@ -443,7 +456,7 @@ include("navbar.php");
                     ?>
                     <tr class="tbody">
                         <th scope="row">
-                            <?php echo $i; ?>
+                            <?php echo $fetch->vehicleId; ?>
                         </th>
                         <td>
                             <?php echo $fetch->modalNo; ?>
@@ -481,38 +494,49 @@ include("navbar.php");
                     </tr>
                 </tfoot>
             </table>
-            <!-- Paggination Add -->
-            <?php
-             $sql = "SELECT * FROM `tblmastervehicle`";
-             $run = mysqli_query($conn, $sql) or die('Query Failed.');
-             if(mysqli_num_rows($run) > 0){
-                $totalRecord = mysqli_num_rows($run);
-                $totalPage =   ceil($totalRecord /  $limit);
-                echo ' <ul class="pagination">';
-                if($page > 1){
-                    echo ' <li class="page-item">
-                <a class="page-link" href="vehicle.php?page='.($page - 1).'" aria-label="Previous">
+
+            <div class="footer">
+                <div class="export">
+                    <a class="btn btn-dark" href="export-excel.php" role="button">Export as Excel</a>
+                    <a class="btn btn-dark" href="#" role="button">Export as PDF</a>
+                </div>
+                <div class="paggination">
+                    <!-- Paggination Add -->
+                    <?php
+                    $sql = "SELECT * FROM `tblmastervehicle`";
+                    $run = mysqli_query($conn, $sql) or die('Query Failed.');
+                    if (mysqli_num_rows($run) > 0) {
+                        $totalRecord = mysqli_num_rows($run);
+                        $totalPage = ceil($totalRecord / $limit);
+                        echo ' <ul class="pagination">';
+                        if ($page > 1) {
+                            echo ' <li class="page-item">
+                <a class="page-link" href="vehicle.php?page=' . ($page - 1) . '" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>';
-                }
-              
-              for($i=1; $i <= $totalPage; $i++){
-                if($i == $page){
-                    $active = "active";
-                }else{
-                    $active = "";
-                }
-                echo ' <li class="page-item '.$active .'" aria-current="page"><a class="page-link" href="vehicle.php?page='.$i.'">'.$i.'</a></li>';
-              }
-              if($totalPage > $page){
-                echo '<li class="page-item"><a class="page-link" href="vehicle.php?page='.($page + 1).'" aria-label="Next"><span aria-hidden="true">&raquo;</span>
+                        }
+
+                        for ($i = 1; $i <= $totalPage; $i++) {
+                            if ($i == $page) {
+                                $active = "active";
+                            }
+                            else {
+                                $active = "";
+                            }
+                            echo ' <li class="page-item ' . $active . '" aria-current="page"><a class="page-link" href="vehicle.php?page=' . $i . '">' . $i . '</a></li>';
+                        }
+                        if ($totalPage > $page) {
+                            echo '<li class="page-item"><a class="page-link" href="vehicle.php?page=' . ($page + 1) . '" aria-label="Next"><span aria-hidden="true">&raquo;</span>
                 </a></li>';
-              }
-            
-              echo '</ul>';
-             }
-             ?>
+                        }
+
+                        echo '</ul>';
+                    }
+                    ?>
+                </div>
+            </div>
+
         </div>
         <!-- Vehicle Data Table End-->
         <!-- Modal Update Data start-->
