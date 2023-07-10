@@ -301,7 +301,7 @@ include("navbar.php");
         color: #fff;
     }
 
-    .footer{
+    .footer {
         display: flex;
         justify-content: space-between;
     }
@@ -314,15 +314,20 @@ include("navbar.php");
         background-color: #0000b3;
         border-color: #0000b3;
     }
-    .btn-dark{
+
+    .btn-dark {
         border-radius: 0;
     }
-    .btn-dark:not(:disabled):not(.disabled):active:focus{
+
+    .btn-dark:not(:disabled):not(.disabled):active:focus {
         box-shadow: none;
     }
-    .btn-dark:focus, .btn:focus{
+
+    .btn-dark:focus,
+    .btn:focus {
         box-shadow: none;
     }
+
     @media only screen and (max-width: 810px) {
         .main-body {
             width: 100%;
@@ -494,11 +499,10 @@ include("navbar.php");
                     </tr>
                 </tfoot>
             </table>
-
             <div class="footer">
                 <div class="export">
-                    <a class="btn btn-dark" href="export-excel.php" role="button">Export as Excel</a>
-                    <a class="btn btn-dark" href="#" role="button">Export as PDF</a>
+                    <a class="btn btn-dark d-inline-block" href="export-excel.php" role="button">Export as Excel</a>
+                    <a class="btn btn-dark d-inline-block" href="#" role="button">Export as PDF</a>
                 </div>
                 <div class="paggination">
                     <!-- Paggination Add -->
