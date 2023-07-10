@@ -427,7 +427,7 @@ include("navbar.php");
         </div>
         <!-- Vehicle Data Table Start-->
         <div class="table-vehicle">
-            <table class="table table-striped" id="customerTable">
+            <table class="table table-striped" id="myTable">
                 <tr class="thead">
                     <th scope="col">#</th>
                     <th scope="col">Model#</th>
@@ -782,8 +782,10 @@ include("navbar.php");
                 });
             });
         });
+       
 
     </script>
+    
 </body>
 
 </html>

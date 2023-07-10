@@ -23,6 +23,7 @@ include("timzone.php");
     <!-- Internation phone field  -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.12/css/intlTelInput.css">
     <!-- <title>Dashboard|Vehicle Management</title> -->
+    <!-- <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.0/css/buttons.dataTables.min.css"> -->
 </head>
 
 <body>
