@@ -6,8 +6,8 @@ include("header.php");
 // echo $_SERVER['REQUEST_URI'];
 function checkNavbar($className)
 {
-    // die();
-    if (strpos($_SERVER['REQUEST_URI'], $className)) {
+    $currentFile = basename($_SERVER['REQUEST_URI'], ".php");
+    if ($currentFile === $className) {
         return ' active';
     }
     return '';

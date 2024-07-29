@@ -618,7 +618,7 @@ include("navbar.php");
                         $('#customerId').val(data.customerId)
                         // $('#mobileInput').val(data.mobile);
                         var mobileInput = document.querySelector("#mobileInput");
-                        mobileInput.value = data.countrycode + data.mobile;
+                        mobileInput.value = data.countryCode + data.mobile;
                         $('#addressInput').val(data.address);
                         $('#cityInput').val(data.city);
                         $('#stateInput').val(data.state);

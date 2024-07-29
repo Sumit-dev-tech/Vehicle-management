@@ -415,7 +415,7 @@ include("navbar.php");
                 $i = 1;
                 while ($fetch = mysqli_fetch_object($run)) {
                     $formatedob = $fetch->dob;
-                    $countryCode = $fetch->countrycode;
+                    $countryCode = $fetch->countryCode;
                     $add = $fetch->address;
                     $city = $fetch->city;
                     $state = $fetch->state;
@@ -854,7 +854,7 @@ include("navbar.php");
                         // $('#mobileInput').val(data.mobile);
 
                         var mobileInput = document.querySelector("#mobileInput");
-                        mobileInput.value = data.countrycode + data.mobile;
+                        mobileInput.value = data.countryCode + data.mobile;
                         $('#emailInput').val(data.email);
                         $('input[name=gender][value="' + data.gender + '"]').prop('checked', true);
                         $('#dobInput').val(data.dob);
